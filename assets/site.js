@@ -27,6 +27,69 @@ document.querySelectorAll("[data-dashboard]").forEach((a) => {
   });
 });
 
+/* Face hand-off with the dashboard.
+   faceSlot() mirrors the dashboard's CSS for where the face rests beside the server list,
+   so the orb can fly there before the page changes, and fly back from there on return. */
+function faceSlot() {
+  const w = window.innerWidth, h = window.innerHeight;
+  if (w >= 900) {
+    const s = Math.min(380, Math.max(220, w * 0.26));
+    return { x: w - Math.max(0, (w - 1100) / 2) - 32 - s / 2, y: 62 + (h - 62) / 2, s };
+  }
+  const s = Math.min(200, w * 0.44);
+  return { x: w / 2, y: 94 + s / 2, s };
+}
+(() => {
+  const root = document.documentElement;
+  const orb = document.querySelector(".orb");
+  const arriving = location.hash === "#from-dashboard";
+  if (arriving) history.replaceState(null, "", location.pathname + location.search);
+  if (!orb) { root.classList.remove("vx-arrive"); return; }
+  const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const EASE = "cubic-bezier(.65, 0, .35, 1)";
+  const toSlot = (r) => {
+    const t = faceSlot();
+    return `translate(${t.x - (r.left + r.width / 2)}px, ${t.y - (r.top + r.height / 2)}px) scale(${t.s / r.width})`;
+  };
+
+  // Returning from the dashboard: the orb starts where the face was and glides back into its place
+  if (arriving) {
+    orb.removeAttribute("data-reveal");          // skip its normal entrance
+    orb.classList.add("is-visible", "revealed");
+    root.classList.remove("vx-arrive");
+    if (!calm) orb.animate([{ transform: toSlot(orb.getBoundingClientRect()) }, { transform: "none" }], { duration: 900, easing: EASE });
+  }
+
+  // Leaving for the dashboard: the orb flies to the face's spot, the page fades, then we go
+  let flight = null, clone = null;
+  orb.addEventListener("click", (e) => {
+    if (calm || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    const href = new URL(orb.href);
+    href.hash = "from-orb";
+    const r = orb.getBoundingClientRect();
+    clone = document.createElement("div");
+    clone.className = "orb-fly";
+    clone.innerHTML = '<img src="/assets/vellix-face.webp" alt="">';
+    Object.assign(clone.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
+    document.body.append(clone);
+    orb.style.visibility = "hidden";
+    root.classList.add("vx-leaving");
+    flight = clone.animate([{ transform: "none" }, { transform: toSlot(r) }], { duration: 850, easing: EASE, fill: "forwards" });
+    flight.finished.then(() => { location.href = href.toString(); });
+  });
+
+  // Browser Back from the dashboard restores this page mid-flight: fly the face home
+  addEventListener("pageshow", (e) => {
+    if (!e.persisted || !flight) return;
+    root.classList.remove("vx-leaving");
+    const f = flight, c = clone;
+    flight = clone = null;
+    f.reverse();
+    f.finished.then(() => { c.remove(); orb.style.visibility = ""; }, () => {});
+  });
+})();
+
 // Tidy the address bar after a ?theme= hand-over from the dashboard
 (() => {
   const url = new URL(location.href);
