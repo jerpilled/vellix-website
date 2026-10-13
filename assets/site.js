@@ -3,6 +3,9 @@ const VELLIX = {
   clientId: "1559358210006196295",                 // Developer Portal → General Information → Application ID
   support: "https://discord.gg/t5aDvZ7UTr",     // your support server invite
   permissions: "1374659407062",
+  // Where the dashboard lives. It runs on the bot's PC, so localhost only works on that PC.
+  // When the dashboard gets a public address (e.g. an ngrok domain), put it here.
+  dashboard: "http://localhost:8080",
 };
 /* ================================= */
 
@@ -12,7 +15,23 @@ const inviteUrl =
 
 document.querySelectorAll("[data-invite]").forEach((a) => (a.href = inviteUrl));
 document.querySelectorAll("[data-support]").forEach((a) => (a.href = VELLIX.support));
+document.querySelectorAll("[data-dashboard]").forEach((a) => (a.href = VELLIX.dashboard));
 document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
+
+/* Light / dark switch. The choice is remembered in this browser. */
+const themeButton = document.querySelector("[data-theme-toggle]");
+function showTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  if (themeButton) themeButton.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+}
+if (themeButton) {
+  showTheme(document.documentElement.dataset.theme || "light");
+  themeButton.addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    showTheme(next);
+    try { localStorage.setItem("vellix-theme", next); } catch (e) { /* private mode: just don't remember */ }
+  });
+}
 
 /* Commands page: search box + category buttons */
 const search = document.querySelector("#cmd-search");
