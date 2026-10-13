@@ -22,6 +22,12 @@
     } catch (e) { t = fromLink; }
     if (t !== "light" && t !== "dark") t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     document.documentElement.dataset.theme = t;
+    /* Motion: only when the visitor hasn't asked for reduced motion. If site.js never
+       starts (blocked or failed), the timer removes the class so nothing stays hidden. */
+    if (window.IntersectionObserver && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("motion");
+      setTimeout(function () { if (!window.vxMotion) document.documentElement.classList.remove("motion"); }, 2500);
+    }
   })();
 </script>
 <link rel="icon" href="/assets/favicon.png">
@@ -51,8 +57,8 @@
 
 <section class="hero">
   <div class="stage" aria-hidden="true">
-    <div class="ring"></div><div class="ring r2"></div>
-    <div class="orb"><img src="/assets/vellix-face.webp" alt="" width="720" height="720"></div>
+    <div class="ring" data-reveal="ring" data-reveal-delay="120"></div><div class="ring r2" data-reveal="ring" data-reveal-delay="40"></div>
+    <div class="orb" data-reveal="orb" data-reveal-delay="0"><img src="/assets/vellix-face.webp" alt="" width="720" height="720"></div>
 
     <div class="float-card fc-level">
       <div class="who"><span class="dot"></span>maya reached level 12</div>
@@ -72,9 +78,9 @@
     </div>
   </div>
 
-  <h1>The friendly bot that runs your server</h1>
-  <p class="lede">Moderation, leveling that follows members to every server, and a coin economy with games. Everything works with slash commands, and setup takes a few minutes.</p>
-  <div class="actions">
+  <h1 data-reveal data-reveal-delay="260">The friendly bot that runs your server</h1>
+  <p class="lede" data-reveal data-reveal-delay="360">Moderation, leveling that follows members to every server, and a coin economy with games. Everything works with slash commands, and setup takes a few minutes.</p>
+  <div class="actions" data-reveal data-reveal-delay="460">
     <a class="btn btn-primary" href="#" data-invite>Add Vellix to Discord</a>
     <a class="btn btn-ghost" href="/commands/">Browse commands</a>
   </div>
@@ -82,12 +88,12 @@
 
 <section id="features">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head" data-reveal>
       <h2>One bot instead of five</h2>
       <p>Use what your server needs and switch off the rest. Filters, logs, and welcome messages stay off until staff turn them on.</p>
     </div>
     <div class="pillars">
-      <div class="pillar">
+      <div class="pillar" data-reveal>
         <h3>Keep it safe</h3>
         <p>Moderation tools staff can rely on, with a record of everything.</p>
         <ul>
@@ -97,7 +103,7 @@
         </ul>
         <code>/automod toggle</code>
       </div>
-      <div class="pillar">
+      <div class="pillar" data-reveal>
         <h3>Keep it lively</h3>
         <p>Reasons for members to come back and keep talking.</p>
         <ul>
@@ -107,7 +113,7 @@
         </ul>
         <code>/rank</code>
       </div>
-      <div class="pillar">
+      <div class="pillar" data-reveal>
         <h3>Keep it organized</h3>
         <p>The everyday setup work, handled.</p>
         <ul>
@@ -123,7 +129,7 @@
 
 <section id="leveling">
   <div class="wrap levels">
-    <div class="profile" aria-label="Example rank card">
+    <div class="profile lift" aria-label="Example rank card" data-reveal="scale">
       <div class="row">
         <div class="label"><span>This server</span><span>#3 of 1,204</span></div>
         <div class="lvl">Level 12</div>
@@ -135,7 +141,7 @@
         <div class="meter"><span style="width:35%"></span></div>
       </div>
     </div>
-    <div>
+    <div data-reveal>
       <h2>Two levels, one profile</h2>
       <p>Every message earns XP twice: once for the server you're in, and once for a global level that follows you everywhere Vellix is.</p>
       <ul>
@@ -150,28 +156,28 @@
 
 <section id="economy">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head" data-reveal>
       <h2>One wallet, every server</h2>
       <p>Earn coins with daily, weekly, and work rewards, keep them safe in the bank, and spend them on games.</p>
     </div>
     <div class="economy">
-      <div class="game"><span class="cmd">/blackjack</span><p>Hit, stand, or double against the dealer.</p></div>
-      <div class="game"><span class="cmd">/slots</span><p>Three reels. Match symbols for up to 1,000 times your bet.</p></div>
-      <div class="game"><span class="cmd">/dice</span><p>Roll two dice against Vellix. Higher total wins.</p></div>
-      <div class="game"><span class="cmd">/coinflip</span><p>Call heads or tails to double your bet.</p></div>
+      <div class="game lift" data-reveal><span class="cmd">/blackjack</span><p>Hit, stand, or double against the dealer.</p></div>
+      <div class="game lift" data-reveal><span class="cmd">/slots</span><p>Three reels. Match symbols for up to 1,000 times your bet.</p></div>
+      <div class="game lift" data-reveal><span class="cmd">/dice</span><p>Roll two dice against Vellix. Higher total wins.</p></div>
+      <div class="game lift" data-reveal><span class="cmd">/coinflip</span><p>Call heads or tails to double your bet.</p></div>
     </div>
-    <p class="note">Coins are just for fun. They can't be bought, sold, or cashed out, and server admins can switch games off at any time.</p>
+    <p class="note" data-reveal="fade">Coins are just for fun. They can't be bought, sold, or cashed out, and server admins can switch games off at any time.</p>
   </div>
 </section>
 
 <section id="start">
   <div class="wrap">
-    <div class="start">
+    <div class="start" data-reveal="scale">
       <h2>Add Vellix in three steps</h2>
       <ol>
-        <li><p>Click <strong>Add to Discord</strong> and choose your server.</p></li>
-        <li><p>In Server Settings, drag the Vellix role above the roles you want it to manage.</p></li>
-        <li><p>Type <strong>/help</strong> to see every command by category.</p></li>
+        <li data-reveal><p>Click <strong>Add to Discord</strong> and choose your server.</p></li>
+        <li data-reveal><p>In Server Settings, drag the Vellix role above the roles you want it to manage.</p></li>
+        <li data-reveal><p>Type <strong>/help</strong> to see every command by category.</p></li>
       </ol>
       <a class="btn btn-primary" href="#" data-invite>Add Vellix to Discord</a>
     </div>
@@ -180,7 +186,7 @@
 
 </main>
 <footer>
-  <div class="wrap">
+  <div class="wrap" data-reveal="fade">
     <span>&copy; <span data-year>2026</span> Vellix. Not affiliated with Discord.</span>
     <nav aria-label="Footer">
       <a href="/commands/">Commands</a>

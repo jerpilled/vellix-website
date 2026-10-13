@@ -22,6 +22,12 @@
     } catch (e) { t = fromLink; }
     if (t !== "light" && t !== "dark") t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     document.documentElement.dataset.theme = t;
+    /* Motion: only when the visitor hasn't asked for reduced motion. If site.js never
+       starts (blocked or failed), the timer removes the class so nothing stays hidden. */
+    if (window.IntersectionObserver && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("motion");
+      setTimeout(function () { if (!window.vxMotion) document.documentElement.classList.remove("motion"); }, 2500);
+    }
   })();
 </script>
 <link rel="icon" href="/assets/favicon.png">
@@ -104,7 +110,7 @@
 </div>
 </main>
 <footer>
-  <div class="wrap">
+  <div class="wrap" data-reveal="fade">
     <span>&copy; <span data-year>2026</span> Vellix. Not affiliated with Discord.</span>
     <nav aria-label="Footer">
       <a href="/commands/">Commands</a>

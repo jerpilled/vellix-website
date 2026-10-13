@@ -14,6 +14,7 @@
   --shadow: 0 18px 40px -18px rgba(120, 30, 40, .28), 0 2px 6px rgba(120, 30, 40, .06);
   --max: 1120px;
   --font: "Exo 2", system-ui, sans-serif;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);   /* fast start, soft landing */
   /* surfaces that change between light and dark */
   --line-strong: #d9c6c2;
   --track: #f3e7e4;
@@ -148,12 +149,17 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .hero .lede { position: relative; z-index: 1; max-width: 56ch; margin: 0 auto 28px; color: var(--ink-soft); font-size: 18px; }
 .actions { position: relative; z-index: 1; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-/* one load moment: the cards settle in around the orb */
+/* hero load sequence: orb blooms, then the cards settle in and drift gently */
 @media (prefers-reduced-motion: no-preference) {
-  .float-card { animation: settle .9s cubic-bezier(.2, .8, .2, 1) both; }
-  .fc-daily { animation-delay: .15s; }
-  .fc-bj { animation-delay: .3s; }
+  .float-card {
+    animation: settle .9s var(--ease-out) .55s both, drift 7s ease-in-out 1.45s infinite alternate;
+  }
+  .fc-daily { animation-delay: .7s, 1.6s; animation-duration: .9s, 8s; }
+  .fc-bj { animation-delay: .85s, 1.75s; animation-duration: .9s, 6.5s; }
   @keyframes settle { from { opacity: 0; transform: translateY(14px) scale(.97); } }
+  @keyframes drift { to { transform: translateY(-6px); } }
+  .float-card .meter span { transform-origin: left; animation: fill 1.2s var(--ease-out) 1.1s both; }
+  @keyframes fill { from { transform: scaleX(0); } }
 }
 
 /* ---------- sections ---------- */
@@ -266,4 +272,68 @@ footer a:hover { color: var(--ink); }
   .fc-bj { right: -4%; bottom: 0; }
   .economy { grid-template-columns: 1fr; }
   .cmd-table td:first-child { width: 44%; }
+}
+
+/* =====================================================================
+   Motion (only transform + opacity are animated, so it stays on the GPU)
+   ===================================================================== */
+
+/* --- scroll / load reveals: hidden only when html.motion is set by the head script --- */
+.motion :is([data-reveal], .legal > *) {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition: opacity .8s var(--ease-out) var(--d, 0ms), transform .9s var(--ease-out) var(--d, 0ms),
+              translate .35s var(--ease-out);
+}
+.motion :is([data-reveal], .legal > *):not(.is-visible) { will-change: opacity, transform; }
+.motion .legal > * { transform: translate3d(0, 12px, 0); transition-duration: .6s, .7s, .35s; }
+.motion [data-reveal="fade"] { transform: none; }
+.motion [data-reveal="scale"] { transform: translate3d(0, 16px, 0) scale(.96); }
+.motion [data-reveal="orb"] { transform: scale(.86); transition-duration: 1.1s, 1.4s, .35s; }
+.motion [data-reveal="ring"] { transform: scale(.9); transition-duration: 1.2s, 1.6s, .35s; }
+.motion :is([data-reveal], .legal > *).is-visible { opacity: 1; transform: none; }
+.motion [data-reveal].revealed { transition: opacity .3s, transform .35s var(--ease-out), translate .35s var(--ease-out); }
+
+/* progress bars fill once their card is revealed */
+.motion [data-reveal] .meter span { transform: scaleX(0); transform-origin: left; transition: transform 1.3s var(--ease-out) .35s; }
+.motion [data-reveal].is-visible .meter span { transform: none; }
+
+/* --- hover micro-interactions (mouse/trackpad only, so phones don't get "stuck") --- */
+@media (prefers-reduced-motion: no-preference) {
+  .btn { position: relative; isolation: isolate; transition: transform .25s var(--ease-out), background-color .2s; }
+  .btn::after {             /* a bigger glow that fades in: animating opacity is cheaper than box-shadow */
+    content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; opacity: 0;
+    box-shadow: 0 16px 30px -12px rgba(232, 36, 60, .75); transition: opacity .25s var(--ease-out);
+  }
+  .btn-ghost::after { box-shadow: var(--shadow); }
+  .btn:active { transform: scale(.97); transition-duration: .1s; }
+
+  .lift { position: relative; transition: translate .35s var(--ease-out); }
+  .lift::after {
+    content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+    box-shadow: var(--shadow); opacity: 0; transition: opacity .35s var(--ease-out);
+  }
+  .profile.lift::after { box-shadow: 0 30px 60px -28px rgba(120, 30, 40, .45); }
+
+  .nav a:not(.btn) { position: relative; }
+  .nav a:not(.btn)::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1.5px; border-radius: 2px;
+    background: var(--crimson); transform: scaleX(0); transform-origin: right; transition: transform .35s var(--ease-out);
+  }
+  .theme-toggle svg { transition: transform .5s var(--ease-out); }
+  .tab { transition: transform .2s var(--ease-out), background-color .2s, color .2s, border-color .2s; }
+  .tab:active { transform: scale(.95); }
+  .cmd-table tr td:first-child .cmd { display: inline-block; transition: transform .3s var(--ease-out); }
+  .orb img { transition: transform 1.2s var(--ease-out); }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .btn:hover { transform: translateY(-2px); }
+  .btn:hover::after { opacity: 1; }
+  .btn:active { transform: translateY(0) scale(.97); }
+  .lift:hover { translate: 0 -4px; }
+  .lift:hover::after { opacity: 1; }
+  .nav a:not(.btn):hover::after { transform: scaleX(1); transform-origin: left; }
+  .theme-toggle:hover svg { transform: rotate(28deg) scale(1.08); }
+  .cmd-table tr:hover td:first-child .cmd { transform: translateX(4px); }
+  .stage:hover .orb img { transform: scale(1.03); }
 }

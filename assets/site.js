@@ -9,6 +9,8 @@ const VELLIX = {
 };
 /* ================================= */
 
+window.vxMotion = true; // tells the safety timer in <head> that the animation script is running
+
 const inviteUrl =
   `https://discord.com/oauth2/authorize?client_id=${VELLIX.clientId}` +
   `&permissions=${VELLIX.permissions}&scope=bot+applications.commands`;
@@ -84,3 +86,36 @@ if (search) {
   );
   search.addEventListener("input", apply);
 }
+
+/* Scroll reveals: each element fades/slides in once, the first time it scrolls into view.
+   Elements that arrive together get a short stagger so they cascade instead of popping. */
+(() => {
+  const root = document.documentElement;
+  if (!root.classList.contains("motion")) return;
+  const items = document.querySelectorAll("[data-reveal], .legal > *");
+  const STAGGER = 80, MAX_STAGGER = 5;
+
+  const io = new IntersectionObserver((entries) => {
+    let batch = 0;
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+      // when finished, reveal() drops the delay and switches to snappy timing so hovers respond instantly
+      reveal(entry.target, Math.min(batch++, MAX_STAGGER) * STAGGER);
+    });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+
+  // The opening sequence (anything with a fixed delay) plays on load, even if it starts just below the fold
+  const reveal = (el, delay) => {
+    el.style.setProperty("--d", delay + "ms");
+    el.classList.add("is-visible");
+    el.addEventListener("transitionend", () => { el.style.removeProperty("--d"); el.classList.add("revealed"); }, { once: true });
+  };
+  items.forEach((el) => {
+    if (el.dataset.revealDelay !== undefined) requestAnimationFrame(() => requestAnimationFrame(() => reveal(el, Number(el.dataset.revealDelay))));
+    else io.observe(el);
+  });
+
+  // Jumping to an anchor (e.g. /privacy/#contact) or printing should never leave things hidden
+  window.addEventListener("beforeprint", () => items.forEach((el) => el.classList.add("is-visible")));
+})();
