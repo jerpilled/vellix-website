@@ -39,25 +39,69 @@ function faceSlot() {
   const s = Math.min(200, w * 0.44);
   return { x: w / 2, y: 94 + s / 2, s };
 }
+/* Where the dashboard gathers its glow back into the face before the Website link:
+   mid-screen, at the hero orb's own size (mirrors the dashboard's "center" mode). */
+function glowSpot() {
+  const w = window.innerWidth, h = window.innerHeight;
+  return { x: w / 2, y: h / 2, s: (w <= 640 ? w * 0.86 : Math.min(560, w * 0.92)) * 0.62 };
+}
 (() => {
   const root = document.documentElement;
   const orb = document.querySelector(".orb");
-  const arriving = location.hash === "#from-dashboard";
-  if (arriving) history.replaceState(null, "", location.pathname + location.search);
+  const from = { "#from-dashboard": "slot", "#from-glow": "glow" }[location.hash];
+  if (from) history.replaceState(null, "", location.pathname + location.search);
   if (!orb) { root.classList.remove("vx-arrive"); return; }
   const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const EASE = "cubic-bezier(.65, 0, .35, 1)";
-  const toSlot = (r) => {
-    const t = faceSlot();
-    return `translate(${t.x - (r.left + r.width / 2)}px, ${t.y - (r.top + r.height / 2)}px) scale(${t.s / r.width})`;
-  };
+  const cards = [...document.querySelectorAll(".stage .float-card")];
+  const rings = [...document.querySelectorAll(".stage .ring")];
+  const toSpot = (r, t) =>
+    `translate(${t.x - (r.left + r.width / 2)}px, ${t.y - (r.top + r.height / 2)}px) scale(${t.s / r.width})`;
 
-  // Returning from the dashboard: the orb starts where the face was and glides back into its place
-  if (arriving) {
+  // The cards step aside while Buddy travels, then slide back out from behind him once he has landed
+  let holdTimer = 0;
+  const hold = () => { root.classList.add("vx-hold"); clearTimeout(holdTimer); holdTimer = setTimeout(release, 4000); };
+  function release(delay = 0) {
+    clearTimeout(holdTimer);
+    if (!root.classList.contains("vx-hold")) return;
+    root.classList.remove("vx-hold");
+    // the orb's resting centre (layout box, so it ignores any flight still in progress)
+    const st = orb.offsetParent.getBoundingClientRect();
+    const ox = st.left + orb.offsetLeft + orb.offsetWidth / 2, oy = st.top + orb.offsetTop + orb.offsetHeight / 2;
+    cards.forEach((c, i) => {
+      c.getAnimations().forEach((a) => { if (a.animationName === "settle") a.finish(); });
+      const r = c.getBoundingClientRect();
+      if (!r.width) return;                       // hidden on small phones
+      const dx = (ox - (r.left + r.width / 2)) * 0.35, dy = (oy - (r.top + r.height / 2)) * 0.35;
+      c.animate([{ opacity: 0, translate: `${dx}px ${dy}px`, scale: 0.9 }, { opacity: 1, translate: "0px 0px", scale: 1 }],
+        { duration: 650, delay: delay + i * 90, easing: "cubic-bezier(.34, 1.3, .64, 1)", fill: "backwards" });
+    });
+  }
+
+  // Returning from the dashboard: the orb starts where the face was and settles back into its place
+  if (from) {
     orb.removeAttribute("data-reveal");          // skip its normal entrance
     orb.classList.add("is-visible", "revealed");
-    root.classList.remove("vx-arrive");
-    if (!calm) orb.animate([{ transform: toSlot(orb.getBoundingClientRect()) }, { transform: "none" }], { duration: 900, easing: EASE });
+    if (!calm) hold();
+    if (!calm && from === "glow") {
+      // From inside a server: Buddy re-formed mid-screen. He drops into his spot with a little bounce,
+      // the rings ripple out from him, and the cards slide back out after them.
+      rings.forEach((r) => {
+        r.removeAttribute("data-reveal");
+        r.classList.add("is-visible", "revealed");
+        // each ring starts at the orb's size (orb 62% of the stage, inner ring 82%, outer 100%)
+        r.animate([{ opacity: 0, scale: r.classList.contains("r2") ? 0.62 / 0.82 : 0.62 }, { opacity: 1, scale: 1 }],
+          { duration: 800, delay: r.classList.contains("r2") ? 420 : 540, easing: "cubic-bezier(.16, 1, .3, 1)", fill: "backwards" });
+      });
+      orb.animate([{ transform: toSpot(orb.getBoundingClientRect(), glowSpot()) }, { transform: "none" }],
+        { duration: 750, easing: "cubic-bezier(.34, 1.25, .64, 1)" });
+      root.classList.remove("vx-arrive");
+      release(780);                               // just after he lands
+    } else {
+      root.classList.remove("vx-arrive");
+      if (!calm) orb.animate([{ transform: toSpot(orb.getBoundingClientRect(), faceSlot()) }, { transform: "none" }], { duration: 900, easing: EASE })
+        .finished.then(() => release(), () => release());
+    }
   }
 
   // Leaving for the dashboard: the orb flies to the face's spot, the page fades, then we go
@@ -75,18 +119,19 @@ function faceSlot() {
     document.body.append(clone);
     orb.style.visibility = "hidden";
     root.classList.add("vx-leaving");
-    flight = clone.animate([{ transform: "none" }, { transform: toSlot(r) }], { duration: 850, easing: EASE, fill: "forwards" });
+    flight = clone.animate([{ transform: "none" }, { transform: toSpot(r, faceSlot()) }], { duration: 850, easing: EASE, fill: "forwards" });
     flight.finished.then(() => { location.href = href.toString(); });
   });
 
-  // Browser Back from the dashboard restores this page mid-flight: fly the face home
+  // Browser Back from the dashboard restores this page mid-flight: fly the face home, then the cards
   addEventListener("pageshow", (e) => {
     if (!e.persisted || !flight) return;
+    hold();
     root.classList.remove("vx-leaving");
     const f = flight, c = clone;
     flight = clone = null;
     f.reverse();
-    f.finished.then(() => { c.remove(); orb.style.visibility = ""; }, () => {});
+    f.finished.then(() => { c.remove(); orb.style.visibility = ""; release(); }, () => {});
   });
 })();
 

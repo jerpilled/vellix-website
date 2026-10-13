@@ -414,6 +414,8 @@ footer a:hover { color: var(--ink); }
 .orb-fly { position: fixed; z-index: 50; border-radius: 50%; pointer-events: none; box-shadow: 0 40px 80px -30px rgba(200, 30, 50, .55); }
 .orb-fly img { width: 100%; height: 100%; border-radius: 50%; }
 .vx-arrive .orb { visibility: hidden; }
+/* the cards around Buddy wait while he travels, so he never passes over them */
+:is(.vx-arrive, .vx-hold) .float-card { opacity: 0; pointer-events: none; }
 @media (prefers-reduced-motion: no-preference) {
   .vx-leaving :is(.site-header, main, footer) { opacity: 0; transition: opacity .35s var(--ease-out); pointer-events: none; }
 }
