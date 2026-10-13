@@ -15,7 +15,24 @@ const inviteUrl =
 
 document.querySelectorAll("[data-invite]").forEach((a) => (a.href = inviteUrl));
 document.querySelectorAll("[data-support]").forEach((a) => (a.href = VELLIX.support));
-document.querySelectorAll("[data-dashboard]").forEach((a) => (a.href = VELLIX.dashboard));
+// Dashboard links carry the current light/dark choice over (the dashboard is a different address)
+document.querySelectorAll("[data-dashboard]").forEach((a) => {
+  a.href = VELLIX.dashboard;
+  a.addEventListener("click", () => {
+    const url = new URL(VELLIX.dashboard);
+    url.searchParams.set("theme", document.documentElement.dataset.theme || "light");
+    a.href = url.toString();
+  });
+});
+
+// Tidy the address bar after a ?theme= hand-over from the dashboard
+(() => {
+  const url = new URL(location.href);
+  if (url.searchParams.has("theme")) {
+    url.searchParams.delete("theme");
+    history.replaceState(null, "", url.pathname + url.search + url.hash);
+  }
+})();
 document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 
 /* Light / dark switch. The choice is remembered in this browser. */

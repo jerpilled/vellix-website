@@ -12,10 +12,14 @@
 <meta name="theme-color" content="#262624" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 <script>
-  /* apply the saved (or system) theme before the page draws, so it never flashes */
+  /* Theme, applied before the page draws so it never flashes:
+     a ?theme= handed over from the dashboard wins, then this browser's saved choice, then the system setting */
   (function () {
-    var t = null;
-    try { t = localStorage.getItem("vellix-theme"); } catch (e) {}
+    var t = null, fromLink = new URLSearchParams(location.search).get("theme");
+    try {
+      if (fromLink === "light" || fromLink === "dark") localStorage.setItem("vellix-theme", fromLink);
+      t = localStorage.getItem("vellix-theme");
+    } catch (e) { t = fromLink; }
     if (t !== "light" && t !== "dark") t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     document.documentElement.dataset.theme = t;
   })();
