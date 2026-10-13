@@ -56,26 +56,29 @@
 <main>
 
 <section class="hero">
-  <div class="stage" aria-hidden="true">
-    <div class="ring" data-reveal="ring" data-reveal-delay="120"></div><div class="ring r2" data-reveal="ring" data-reveal-delay="40"></div>
-    <div class="orb" data-reveal="orb" data-reveal-delay="0"><img src="/assets/vellix-face.webp" alt="" width="720" height="720"></div>
+  <div class="stage">
+    <div class="ring" aria-hidden="true" data-reveal="ring" data-reveal-delay="120"></div><div class="ring r2" aria-hidden="true" data-reveal="ring" data-reveal-delay="40"></div>
+    <a class="orb" href="http://localhost:8080" data-dashboard aria-label="Open the Vellix dashboard" data-reveal="orb" data-reveal-delay="0">
+      <img src="/assets/vellix-face.webp" alt="" width="720" height="720">
+      <span class="orb-hint" aria-hidden="true">Open dashboard</span>
+    </a>
 
-    <div class="float-card fc-level">
-      <div class="who"><span class="dot"></span>maya reached level 12</div>
-      <div class="meter"><span style="width:62%"></span></div>
-      <div class="muted">880 / 1,420 XP to level 13</div>
-    </div>
-    <div class="float-card fc-daily">
+    <a class="float-card fc-level" href="/commands/?cat=leveling&amp;cmd=rank" aria-label="Leveling commands, starting with /rank">
+      <span class="who"><span class="dot"></span>maya reached level 12</span>
+      <span class="meter"><span style="width:62%"></span></span>
+      <span class="muted">880 / 1,420 XP to level 13</span>
+    </a>
+    <a class="float-card fc-daily" href="/commands/?cat=economy&amp;cmd=daily" aria-label="The /daily command and other economy commands">
       <span class="chip">/daily</span>
-      <div class="big">+650 coins</div>
-      <div class="muted">4-day streak bonus</div>
-    </div>
-    <div class="float-card fc-bj">
-      <div class="who">Blackjack</div>
-      <div class="cards-hand"><b>A&spades;</b><b class="red">K&hearts;</b></div>
-      <div class="big">+1,500 coins</div>
-      <div class="muted">Natural 21 pays 3 to 2</div>
-    </div>
+      <span class="big">+650 coins</span>
+      <span class="muted">4-day streak bonus</span>
+    </a>
+    <a class="float-card fc-bj" href="/commands/?cat=gambling&amp;cmd=blackjack" aria-label="The /blackjack command and other games">
+      <span class="who">Blackjack</span>
+      <span class="cards-hand"><b>A&spades;</b><b class="red">K&hearts;</b></span>
+      <span class="big">+1,500 coins</span>
+      <span class="muted">Natural 21 pays 3 to 2</span>
+    </a>
   </div>
 
   <h1 data-reveal data-reveal-delay="260">The friendly bot that runs your server</h1>

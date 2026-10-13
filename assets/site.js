@@ -77,14 +77,38 @@ if (search) {
     empty.hidden = shown !== 0;
   }
 
+  function selectTab(tab) {
+    tabs.forEach((x) => x.setAttribute("aria-pressed", String(x === tab)));
+    category = tab.dataset.cat;
+  }
+
   tabs.forEach((t) =>
     t.addEventListener("click", () => {
-      tabs.forEach((x) => x.setAttribute("aria-pressed", String(x === t)));
-      category = t.dataset.cat;
+      selectTab(t);
       apply();
+      document.querySelectorAll("tr.is-target").forEach((tr) => tr.classList.remove("is-target"));
+      // keep the address shareable: /commands/?cat=economy (or plain /commands/ for All)
+      history.replaceState(null, "", category === "all" ? location.pathname : `${location.pathname}?cat=${category}`);
     })
   );
   search.addEventListener("input", apply);
+
+  // Deep links from the home page, e.g. /commands/?cat=economy&cmd=daily
+  const params = new URLSearchParams(location.search);
+  const startTab = tabs.find((t) => t.dataset.cat === params.get("cat"));
+  if (startTab) {
+    selectTab(startTab);
+    apply();
+  }
+  const cmd = (params.get("cmd") || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const row = cmd && document.getElementById("cmd-" + cmd);
+  if (row && !row.hidden) {
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    requestAnimationFrame(() => {
+      row.scrollIntoView({ block: "center", behavior: calm ? "auto" : "smooth" });
+      row.classList.add("is-target");
+    });
+  }
 }
 
 /* Scroll reveals: each element fades/slides in once, the first time it scrolls into view.
