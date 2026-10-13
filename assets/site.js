@@ -1,7 +1,7 @@
 /* ===== You can change these ===== */
 const VELLIX = {
-  clientId: "YOUR_CLIENT_ID",                 // Developer Portal → General Information → Application ID
-  support: "https://discord.gg/YOURCODE",     // your support server invite
+  clientId: "1559358210006196295",                 // Developer Portal → General Information → Application ID
+  support: "https://discord.gg/t5aDvZ7UTr",     // your support server invite
   permissions: "1374659407062",
 };
 /* ================================= */
