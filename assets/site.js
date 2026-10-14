@@ -55,6 +55,16 @@ function glowSpot() {
   const EASE = "cubic-bezier(.65, 0, .35, 1)";
   const cards = [...document.querySelectorAll(".stage .float-card")];
   const rings = [...document.querySelectorAll(".stage .ring")];
+  const hero = document.querySelector(".hero");
+  // the page glow fades back in as Buddy's halo fades out, so the glow never pops
+  const glowIn = (ms) => hero && hero.animate([{ opacity: 0 }, { opacity: 1 }], { duration: ms, easing: "ease-in-out", pseudoElement: "::before" });
+  const haloOut = (ms) => {
+    const h = document.createElement("span");
+    h.className = "vx-halo"; h.setAttribute("aria-hidden", "true");
+    orb.prepend(h);
+    h.animate([{ opacity: 1 }, { opacity: 0 }], { duration: ms, easing: "ease-in-out", fill: "forwards" }).finished.then(() => h.remove(), () => h.remove());
+    glowIn(ms);
+  };
   const toSpot = (r, t) =>
     `translate(${t.x - (r.left + r.width / 2)}px, ${t.y - (r.top + r.height / 2)}px) scale(${t.s / r.width})`;
 
@@ -95,17 +105,21 @@ function glowSpot() {
       });
       orb.animate([{ transform: toSpot(orb.getBoundingClientRect(), glowSpot()) }, { transform: "none" }],
         { duration: 750, easing: "cubic-bezier(.34, 1.25, .64, 1)" });
+      haloOut(900);
       root.classList.remove("vx-arrive");
       release(780);                               // just after he lands
     } else {
       root.classList.remove("vx-arrive");
-      if (!calm) orb.animate([{ transform: toSpot(orb.getBoundingClientRect(), faceSlot()) }, { transform: "none" }], { duration: 900, easing: EASE })
-        .finished.then(() => release(), () => release());
+      if (!calm) {
+        orb.animate([{ transform: toSpot(orb.getBoundingClientRect(), faceSlot()) }, { transform: "none" }], { duration: 900, easing: EASE })
+          .finished.then(() => release(), () => release());
+        haloOut(900);
+      }
     }
   }
 
   // Leaving for the dashboard: the orb flies to the face's spot, the page fades, then we go
-  let flight = null, clone = null;
+  let flight = null, clone = null, haloIn = null;
   orb.addEventListener("click", (e) => {
     if (calm || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
@@ -114,12 +128,14 @@ function glowSpot() {
     const r = orb.getBoundingClientRect();
     clone = document.createElement("div");
     clone.className = "orb-fly";
-    clone.innerHTML = '<img src="/assets/vellix-face.webp" alt="">';
+    clone.innerHTML = '<span class="vx-halo"></span><img src="/assets/vellix-face.webp" alt="">';
     Object.assign(clone.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
     document.body.append(clone);
     orb.style.visibility = "hidden";
     root.classList.add("vx-leaving");
     flight = clone.animate([{ transform: "none" }, { transform: toSpot(r, faceSlot()) }], { duration: 850, easing: EASE, fill: "forwards" });
+    // the page glow fades with the page while Buddy gathers it up as his halo
+    haloIn = clone.firstChild.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 850, easing: "ease-in-out", fill: "forwards" });
     flight.finished.then(() => { location.href = href.toString(); });
   });
 
@@ -131,6 +147,8 @@ function glowSpot() {
     const f = flight, c = clone;
     flight = clone = null;
     f.reverse();
+    if (haloIn) { haloIn.reverse(); haloIn = null; }
+    glowIn(850);
     f.finished.then(() => { c.remove(); orb.style.visibility = ""; release(); }, () => {});
   });
 })();
