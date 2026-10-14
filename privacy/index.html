@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy Policy | Vellix</title>
-<meta name="description" content="What data Vellix stores and how it is used.">
+<meta name="description" content="What data Vellix stores, why, and the choices you have.">
 <meta property="og:title" content="Privacy Policy | Vellix">
-<meta property="og:description" content="What data Vellix stores and how it is used.">
+<meta property="og:description" content="What data Vellix stores, why, and the choices you have.">
 <meta property="og:image" content="/assets/social.jpg">
 <meta name="theme-color" content="#fbf7f5" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#262624" media="(prefers-color-scheme: dark)">
@@ -37,12 +37,11 @@
 </script>
 <link rel="icon" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/icon-180.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="wordmark" href="/" aria-label="Vellix home"><img src="/assets/favicon.png" alt="">VELLIX</a>
@@ -58,71 +57,100 @@
     </nav>
   </div>
 </header>
-<main>
+<main id="main" tabindex="-1">
 
 <div class="wrap legal">
-  <div class="page-head"><h1>Privacy Policy</h1><p>Last updated October 12, 2026</p></div>
-  <p>Vellix stores only what it needs to run its features: Discord IDs, usernames, levels, coin balances, warnings, and server settings. It does not sell data and does not store the text of your messages.</p>
-  <h2>1. Data Vellix stores</h2>
+  <div class="page-head"><h1>Privacy Policy</h1><p>Last updated October 13, 2026</p></div>
+  <p>Vellix is a free Discord bot, website, and dashboard run by an independent developer in the United States ("we", "us"). This policy explains what Vellix collects, why, and the choices you have. In short: Vellix stores only what its features need, never stores the text of your messages, never sells data, and does not track you.</p>
+
+  <h2>1. Data the bot stores</h2>
   <table>
-    <thead><tr><th>Data</th><th>What it includes</th><th>Why</th></tr></thead>
+    <thead><tr><th scope="col">Data</th><th scope="col">What it includes</th><th scope="col">Why</th></tr></thead>
     <tbody>
-      <tr><td>Account info</td><td>Discord user ID, username, avatar link</td><td>To show names on leaderboards and link your levels and coins to you</td></tr>
+      <tr><td>Account info</td><td>Discord user ID and username</td><td>To link your levels and coins to you and show your name on global leaderboards</td></tr>
       <tr><td>Leveling</td><td>XP and number of XP-earning messages, globally and per server</td><td>Levels, ranks, and leaderboards</td></tr>
       <tr><td>Economy</td><td>Wallet and bank balances, reward cooldown times, daily streak, total coins won and lost in games</td><td>The global economy and games</td></tr>
       <tr><td>Leaderboard setting</td><td>Whether you chose to hide your name on global leaderboards</td><td>To respect that choice</td></tr>
       <tr><td>Warnings</td><td>Server ID, warned user ID, moderator ID, reason, date</td><td>So server staff can review warning history</td></tr>
-      <tr><td>Server settings</td><td>Server ID, name, icon, owner ID, member count, chosen channel and role IDs, custom welcome and level-up messages, blocked words, allowed websites</td><td>To run each server's features the way its staff set them up</td></tr>
+      <tr><td>Server settings</td><td>Server ID, chosen channel and role IDs, feature switches, welcome, leave and level-up messages, blocked words, allowed websites, level rewards</td><td>To run each server's features the way its staff set them up</td></tr>
+      <tr><td>Custom commands and auto-replies</td><td>The name, trigger, and reply text written by server staff, the user ID of the staff member who created a command, and how often it was used</td><td>To answer custom commands and keywords in that server</td></tr>
     </tbody>
   </table>
-  <p>Vellix does not collect your email, IP address, real name, payment information, or direct messages.</p>
+  <p>Vellix does not collect your email, real name, IP address, payment details, or direct messages, and does not store profile pictures or details about servers beyond the settings above.</p>
+
   <h2>2. Message content</h2>
-  <p>Vellix reads messages as they are sent but does not save their text in its database.</p>
+  <p>Vellix reads messages as they are sent but does not save their text.</p>
   <ul>
     <li><strong>Leveling</strong> only notes that you sent a message, so it can award XP.</li>
     <li><strong>AutoMod</strong>, when a server turns it on, checks messages for spam, links, invites, mass mentions, and blocked words. Recent message times are kept in memory for a few seconds to detect spam, then discarded.</li>
-    <li><strong>Server logs and mod-logs</strong>, when a server turns them on, post copies of edited or deleted messages, and messages removed by AutoMod, into a channel in that same server. Those copies live in Discord, are controlled by that server's staff, and are not stored by Vellix.</li>
+    <li><strong>Custom commands and auto-replies</strong> compare a message with that server's triggers and reply if it matches. The message itself is not stored.</li>
+    <li><strong>Server logs and mod logs</strong>, when a server turns them on, post copies of edited or deleted messages, and messages removed by AutoMod, into a channel in that same server. Those copies live in Discord, are controlled by that server's staff, and are not stored by Vellix.</li>
   </ul>
-  <h2>3. How data is used and shared</h2>
+
+  <h2>3. The dashboard</h2>
+  <p>Server staff can manage Vellix on its web dashboard after logging in with Discord.</p>
+  <ul>
+    <li><strong>Login.</strong> Discord login uses the "identify" permission only. Vellix receives your Discord user ID, name, and avatar, so it can check which servers you manage and show who is logged in. It cannot see your email, servers you don't share with Vellix, or your messages.</li>
+    <li><strong>Session cookie.</strong> After login, a signed cookie named <code>vellix_session</code> keeps you logged in for up to 7 days, or until you log out. It holds your user ID, name, avatar link, and security codes that protect forms. It is not stored in Vellix's database. See the <a href="/cookies/">Cookie Policy</a>.</li>
+    <li><strong>Changes you make</strong> are saved as that server's settings (section 1). Messages sent with the message sender are posted to Discord and not stored by Vellix.</li>
+  </ul>
+
+  <h2>4. The website</h2>
+  <p>This website has no accounts, forms, ads, analytics, or tracking, and it sets no cookies. It loads nothing from other companies: fonts and images come from this site.</p>
+  <ul>
+    <li><strong>Theme choice.</strong> If you pick light or dark mode, your browser remembers it in local storage (<code>vellix-theme</code>). It never leaves your device.</li>
+    <li><strong>Hosting.</strong> The site is hosted by Render. Like any web host, Render may keep standard server logs, such as IP addresses and browser types, to run and protect its service. See <a href="https://render.com/privacy">Render's Privacy Policy</a>.</li>
+    <li><strong>Do Not Track.</strong> Vellix doesn't track people across sites, so it has nothing to change when your browser sends a Do Not Track signal.</li>
+  </ul>
+
+  <h2>5. How data is used and shared</h2>
   <p>Data is used only to run Vellix's features. We never sell it, rent it, or use it for advertising.</p>
   <ul>
-    <li><strong>Global leaderboards</strong> show your username, level, and coin total to users in every server that has Vellix. You can hide your name (section 5).</li>
+    <li><strong>Global leaderboards</strong> show your username, level, and coin total to users in every server that has Vellix. You can hide your name (section 7).</li>
     <li><strong>Server leaderboards</strong> show members' display names and levels to that server.</li>
-    <li><strong>Server staff</strong> can see warnings and settings for their own server only.</li>
+    <li><strong>Server staff</strong> can see warnings, settings, and custom commands for their own server only.</li>
     <li><strong>Legal requests.</strong> We may share data if the law requires it, or to protect users or Vellix from harm.</li>
   </ul>
   <p>Vellix runs through Discord, so Discord also processes this data under the <a href="https://discord.com/privacy">Discord Privacy Policy</a>.</p>
-  <h2>4. Storage, security, and retention</h2>
-  <p>Vellix's data is kept in a private database on a computer or server controlled by the developer. Only the developer can access it, and the bot's login token is kept private.</p>
+
+  <h2>6. Storage, security, and retention</h2>
   <ul>
+    <li>Vellix's data is kept in a private database on a computer controlled by the developer in the United States. Only the developer can access it, and the bot's login token is kept private. If you use Vellix from outside the United States, your data is processed there.</li>
     <li><strong>Levels and coins</strong> are kept while you use Vellix, so your progress is still there when you come back.</li>
     <li><strong>Warnings</strong> are kept until server staff delete them with <span class="cmd">/delwarn</span> or <span class="cmd">/clearwarnings</span>, or until you ask us to delete them.</li>
-    <li><strong>Server settings</strong> are kept after Vellix leaves a server, so they return if it is added again. Server owners can ask us to delete them.</li>
+    <li><strong>Server settings and custom commands</strong> are kept after Vellix leaves a server, so they return if it is added again. Server owners can ask us to delete them.</li>
   </ul>
   <p>No system is perfectly secure. If a data breach affecting users ever happens, we will announce it in the support server.</p>
-  <h2>5. Your choices and rights</h2>
+
+  <h2>7. Your choices and rights</h2>
   <ul>
     <li><strong>Hide your name</strong> on global leaderboards at any time with <span class="cmd">/lbprivacy</span>. You will show as "Anonymous" instead.</li>
-    <li><strong>Ask for a copy</strong> of the data Vellix stores about you.</li>
-    <li><strong>Ask for deletion</strong> of your data. Deleting it resets your levels, XP, and coins permanently. Warnings may be kept if a server needs them for moderation, but you can ask that server's staff to remove them.</li>
+    <li><strong>See your data.</strong> Ask for a copy of the data Vellix stores about you.</li>
+    <li><strong>Correct or delete it.</strong> Deleting it resets your levels, XP, and coins permanently. Warnings may be kept if a server needs them for moderation, but you can ask that server's staff to remove them.</li>
     <li><strong>Server owners</strong> can turn features off, or remove Vellix and ask us to delete their server's settings.</li>
   </ul>
-  <p>To make a request, contact us through the support server (section 6). We aim to respond within 30 days.</p>
-  <h2>6. Children, changes, and contact</h2>
-  <p><strong>Children.</strong> Vellix is only for people who meet Discord's minimum age in their country. We do not knowingly collect data from anyone younger. If you believe a child's data is stored, contact us and we will delete it.</p>
-  <p><strong>Changes.</strong> We may update this policy when Vellix changes, for example when a website dashboard launches. We will update the "Last updated" date and announce major changes in the support server.</p>
-  <p><strong>Contact.</strong> For questions or data requests, join <a href="#" data-support>the Vellix support server</a>. See also the <a href="/terms/">Vellix Terms of Service</a>.</p>
+  <p>These rights apply to everyone, wherever you live. If you are in the EU or UK, we process your data because running the features you use is in our and your legitimate interests (GDPR Article 6(1)(f)), you can also object to processing, and you can complain to your local data protection authority.</p>
+  <p>To make a request, contact the developer in the support server (section 9). We respond within 30 days and may ask you to confirm the request from your Discord account.</p>
+
+  <h2>8. Children</h2>
+  <p>Vellix is only for people who meet Discord's minimum age in their country, which is at least 13. We do not knowingly collect data from anyone younger. If you believe a child's data is stored, contact us and we will delete it.</p>
+
+  <h2>9. Changes and contact</h2>
+  <p>We may update this policy when Vellix changes. We will update the "Last updated" date and announce major changes in the support server.</p>
+  <p>Vellix is run by an independent developer in the United States. For questions or data requests, contact the developer in <a href="#" data-support>the Vellix support server</a>. See also the <a href="/terms/">Terms of Service</a> and <a href="/cookies/">Cookie Policy</a>.</p>
 </div>
 </main>
 <footer>
   <div class="wrap" data-reveal="fade">
-    <span>&copy; <span data-year>2026</span> Vellix. Not affiliated with Discord.</span>
+    <p class="footer-about">&copy; <span data-year>2026</span> Vellix. Run by an independent developer in the United States.<br>Free to use. Not affiliated with Discord.</p>
     <nav aria-label="Footer">
       <a href="/commands/">Commands</a>
       <a href="#" data-dashboard>Dashboard</a>
       <a href="/terms/">Terms of Service</a>
       <a href="/privacy/">Privacy Policy</a>
-      <a href="#" data-support>Support server</a>
+      <a href="/cookies/">Cookie Policy</a>
+      <a href="/refunds/">Refund Policy</a>
+      <a href="#" data-support>Support server (contact)</a>
     </nav>
   </div>
 </footer>

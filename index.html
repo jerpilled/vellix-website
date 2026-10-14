@@ -37,12 +37,11 @@
 </script>
 <link rel="icon" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/icon-180.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="wordmark" href="/" aria-label="Vellix home"><img src="/assets/favicon.png" alt="">VELLIX</a>
@@ -58,7 +57,7 @@
     </nav>
   </div>
 </header>
-<main>
+<main id="main" tabindex="-1">
 
 <section class="hero">
   <div class="stage">
@@ -87,7 +86,7 @@
   </div>
 
   <h1 data-reveal data-reveal-delay="260">The friendly bot that runs your server</h1>
-  <p class="lede" data-reveal data-reveal-delay="360">Moderation, leveling that follows members to every server, and a coin economy with games. Everything works with slash commands, and setup takes a few minutes.</p>
+  <p class="lede" data-reveal data-reveal-delay="360">Moderation, leveling that follows members to every server, and a coin economy with games. You set everything up with slash commands, in three steps.</p>
   <div class="actions" data-reveal data-reveal-delay="460">
     <a class="btn btn-primary" href="#" data-invite>Add Vellix to Discord</a>
     <a class="btn btn-ghost" href="/commands/">Browse commands</a>
@@ -97,15 +96,15 @@
 <section id="features">
   <div class="wrap">
     <div class="section-head" data-reveal>
-      <h2>One bot instead of five</h2>
+      <h2>Many jobs, one bot</h2>
       <p>Use what your server needs and switch off the rest. Filters, logs, and welcome messages stay off until staff turn them on.</p>
     </div>
     <div class="pillars">
       <div class="pillar" data-reveal>
         <h3>Keep it safe</h3>
-        <p>Moderation tools staff can rely on, with a record of everything.</p>
+        <p>Moderation tools for staff, with warning history and optional logs.</p>
         <ul>
-          <li>Kick, ban, timeout, and warn with full history</li>
+          <li>Kick, ban, timeout, and warn, with each member's warning history</li>
           <li>AutoMod for spam, invites, links, mass pings, and blocked words</li>
           <li>Logs for edits, deletions, joins, leaves, and bans</li>
         </ul>
@@ -137,7 +136,8 @@
 
 <section id="leveling">
   <div class="wrap levels">
-    <div class="profile lift" aria-label="Example rank card" data-reveal="scale">
+    <div class="profile lift" role="group" aria-label="Example rank card" data-reveal="scale">
+      <span class="example-tag">Example</span>
       <div class="row">
         <div class="label"><span>This server</span><span>#3 of 1,204</span></div>
         <div class="lvl">Level 12</div>
@@ -195,13 +195,15 @@
 </main>
 <footer>
   <div class="wrap" data-reveal="fade">
-    <span>&copy; <span data-year>2026</span> Vellix. Not affiliated with Discord.</span>
+    <p class="footer-about">&copy; <span data-year>2026</span> Vellix. Run by an independent developer in the United States.<br>Free to use. Not affiliated with Discord.</p>
     <nav aria-label="Footer">
       <a href="/commands/">Commands</a>
       <a href="#" data-dashboard>Dashboard</a>
       <a href="/terms/">Terms of Service</a>
       <a href="/privacy/">Privacy Policy</a>
-      <a href="#" data-support>Support server</a>
+      <a href="/cookies/">Cookie Policy</a>
+      <a href="/refunds/">Refund Policy</a>
+      <a href="#" data-support>Support server (contact)</a>
     </nav>
   </div>
 </footer>

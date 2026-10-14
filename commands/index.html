@@ -37,12 +37,11 @@
 </script>
 <link rel="icon" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/icon-180.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="wordmark" href="/" aria-label="Vellix home"><img src="/assets/favicon.png" alt="">VELLIX</a>
@@ -58,7 +57,7 @@
     </nav>
   </div>
 </header>
-<main>
+<main id="main" tabindex="-1">
 <div class="wrap">
   <div class="page-head" data-reveal>
     <h1>Commands</h1>
@@ -74,13 +73,15 @@
 </main>
 <footer>
   <div class="wrap" data-reveal="fade">
-    <span>&copy; <span data-year>2026</span> Vellix. Not affiliated with Discord.</span>
+    <p class="footer-about">&copy; <span data-year>2026</span> Vellix. Run by an independent developer in the United States.<br>Free to use. Not affiliated with Discord.</p>
     <nav aria-label="Footer">
       <a href="/commands/">Commands</a>
       <a href="#" data-dashboard>Dashboard</a>
       <a href="/terms/">Terms of Service</a>
       <a href="/privacy/">Privacy Policy</a>
-      <a href="#" data-support>Support server</a>
+      <a href="/cookies/">Cookie Policy</a>
+      <a href="/refunds/">Refund Policy</a>
+      <a href="#" data-support>Support server (contact)</a>
     </nav>
   </div>
 </footer>

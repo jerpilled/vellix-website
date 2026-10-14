@@ -426,3 +426,29 @@ footer a:hover { color: var(--ink); }
 @media (prefers-reduced-motion: no-preference) {
   .vx-leaving :is(.site-header, main, footer) { opacity: 0; transition: opacity .35s var(--ease-out); pointer-events: none; }
 }
+
+/* =====================================================================
+   Skip link, footer details, example label
+   ===================================================================== */
+.skip-link {
+  position: absolute; left: 16px; top: 12px; z-index: 100; padding: 10px 16px; border-radius: 999px;
+  background: var(--ink); color: var(--paper); font-weight: 600; text-decoration: none;
+  transform: translateY(-160%);
+}
+.skip-link:focus { transform: none; outline: 2px solid var(--crimson); outline-offset: 2px; }
+main:focus { outline: none; }
+.footer-about { margin: 0; line-height: 1.6; }
+.example-tag {
+  display: inline-block; margin-bottom: 12px; font-size: 12px; font-weight: 500;
+  color: var(--ink-soft); background: var(--chip-bg); border-radius: 6px; padding: 2px 8px;
+}
+/* legal tables: long names (like vellix_session) wrap instead of widening the page on phones */
+.legal :is(td, th) { overflow-wrap: anywhere; }
+@media (max-width: 640px) { .legal :is(td, th) { padding-right: 8px; font-size: 14px; } }
+/* phones: each row of a wide policy table becomes its own small block with labels */
+@media (max-width: 640px) {
+  .legal table.stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .legal table.stack tr { display: block; border-top: 1px solid var(--line); padding: 10px 0; }
+  .legal table.stack td { display: block; border: 0; padding: 3px 0; }
+  .legal table.stack td::before { content: attr(data-label) ": "; font-weight: 600; }
+}

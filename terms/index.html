@@ -37,12 +37,11 @@
 </script>
 <link rel="icon" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/icon-180.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="wordmark" href="/" aria-label="Vellix home"><img src="/assets/favicon.png" alt="">VELLIX</a>
@@ -58,16 +57,16 @@
     </nav>
   </div>
 </header>
-<main>
+<main id="main" tabindex="-1">
 
 <div class="wrap legal">
-  <div class="page-head"><h1>Terms of Service</h1><p>Last updated October 12, 2026</p></div>
+  <div class="page-head"><h1>Terms of Service</h1><p>Last updated October 13, 2026</p></div>
   <h2>1. Agreement</h2>
   <p>By adding Vellix to a server, or by using any of its commands or features, you agree to these Terms. If you do not agree, do not use Vellix and remove it from any server you manage.</p>
   <p>Vellix is a Discord application, so you must also follow the <a href="https://discord.com/terms">Discord Terms of Service</a> and <a href="https://discord.com/guidelines">Discord Community Guidelines</a>. That includes meeting Discord's minimum age requirement in your country.</p>
-  <p>In these Terms, "we" and "us" means the developer of Vellix, and "you" means anyone who uses Vellix or adds it to a server.</p>
+  <p>Vellix is run by an independent developer in the United States. In these Terms, "we" and "us" means that developer, and "you" means anyone who uses Vellix, its website, or its dashboard, or adds it to a server.</p>
   <h2>2. The service</h2>
-  <p>Vellix is a free Discord bot that provides moderation, automatic message filtering, server logging, welcome messages, self-assignable roles, leveling, a virtual economy, and games.</p>
+  <p>Vellix is a free Discord bot that provides moderation, automatic message filtering, server logging, welcome messages, self-assignable roles, leveling, a virtual economy, games, and custom commands, along with this website and a web dashboard for server staff.</p>
   <ul>
     <li><strong>No guarantee of uptime.</strong> Vellix may be offline, slow, or unavailable at any time, including for maintenance or without notice.</li>
     <li><strong>Features can change.</strong> We may add, change, or remove any feature, command, or limit at any time.</li>
@@ -90,6 +89,7 @@
     <li><strong>No real money.</strong> Coins cannot be bought, sold, traded for money, or exchanged for anything outside Vellix. Selling or buying coins, levels, or accounts is not allowed.</li>
     <li><strong>Games are entertainment.</strong> Slots, blackjack, dice, and coinflip use virtual coins only. Nothing you win or lose has monetary value, and these games are not real-money gambling.</li>
     <li><strong>Not your property.</strong> Coins, XP, and levels are a feature of Vellix, not property you own. We may adjust, remove, or reset them, for example to fix bugs or undo cheating.</li>
+    <li><strong>Nothing to buy.</strong> Vellix has no paid features. If we ever accept voluntary donations, they are covered by the <a href="/refunds/">Refund Policy</a> and never give coins, XP, or game advantages.</li>
     <li><strong>Server choice.</strong> Server administrators can turn economy and game commands off in their server.</li>
   </ul>
   <h2>5. Server administrators</h2>
@@ -104,21 +104,27 @@
   <p>If you break these Terms, we may reset your coins, XP, or levels, block you from using Vellix, or remove Vellix from a server, with or without warning. You can stop using Vellix at any time by leaving servers that use it, or by removing it from servers you manage.</p>
   <h2>7. Disclaimer and limitation of liability</h2>
   <p>Vellix is provided "as is" and "as available", without warranties of any kind. To the fullest extent allowed by law, we are not liable for any loss or damage from using or being unable to use Vellix, including lost data, lost virtual items, or actions taken by server staff or other users.</p>
-  <h2>8. Changes to these Terms</h2>
+  <h2>8. Governing law</h2>
+  <p>These Terms are governed by the laws of the United States, without regard to conflict-of-law rules. If you live somewhere with consumer protection laws that give you more rights, nothing in these Terms takes those rights away.</p>
+  <h2>9. Changes to these Terms</h2>
   <p>We may update these Terms. When we do, we will change the "Last updated" date at the top and may announce major changes in the Vellix support server. Continuing to use Vellix after an update means you accept the new Terms.</p>
-  <h2>9. Contact</h2>
-  <p>Questions about these Terms? Join <a href="#" data-support>the Vellix support server</a>.</p>
+  <h2>10. Credits</h2>
+  <p>The Vellix name, logo, artwork, and website design are original to Vellix. Text is set in the Exo 2 typeface by the Exo 2 Project Authors, used under the <a href="/assets/fonts/OFL.txt">SIL Open Font License 1.1</a>. Discord is a trademark of Discord Inc. Vellix is not affiliated with or endorsed by Discord.</p>
+  <h2>11. Contact</h2>
+  <p>Questions about these Terms? Contact the developer in <a href="#" data-support>the Vellix support server</a>. See also the <a href="/privacy/">Privacy Policy</a>, <a href="/cookies/">Cookie Policy</a>, and <a href="/refunds/">Refund Policy</a>.</p>
 </div>
 </main>
 <footer>
   <div class="wrap" data-reveal="fade">
-    <span>&copy; <span data-year>2026</span> Vellix. Not affiliated with Discord.</span>
+    <p class="footer-about">&copy; <span data-year>2026</span> Vellix. Run by an independent developer in the United States.<br>Free to use. Not affiliated with Discord.</p>
     <nav aria-label="Footer">
       <a href="/commands/">Commands</a>
       <a href="#" data-dashboard>Dashboard</a>
       <a href="/terms/">Terms of Service</a>
       <a href="/privacy/">Privacy Policy</a>
-      <a href="#" data-support>Support server</a>
+      <a href="/cookies/">Cookie Policy</a>
+      <a href="/refunds/">Refund Policy</a>
+      <a href="#" data-support>Support server (contact)</a>
     </nav>
   </div>
 </footer>
