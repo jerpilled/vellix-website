@@ -213,47 +213,88 @@ function discordText(raw, values) {
   document.addEventListener("vx-theme", () => { if (current === "color") run("color"); });
 })();
 
-/* ---------- Showcase: the centred reply is lit and named ---------- */
+/* ---------- Showcase: the centred reply is in focus and named; the others wait out of focus ---------- */
 (() => {
   const row = document.querySelector("[data-row]");
   if (!row) return;
   const panels = [...row.querySelectorAll(".panel")];
   const name = document.querySelector("[data-side-name]");
   const text = document.querySelector("[data-side-text]");
-  let lit = panels[0];
-  const light = (p) => {
-    if (!p || p === lit && p.classList.contains("is-lit")) return;
-    panels.forEach((x) => x.classList.toggle("is-lit", x === p));
-    lit = p;
-    name.textContent = p.dataset.name;
-    text.textContent = p.dataset.text;
+  const prev = document.querySelector("[data-row-prev]");
+  const next = document.querySelector("[data-row-next]");
+  const slot = panels.length > 1 ? panels[1].offsetLeft - panels[0].offsetLeft : 1;
+  let lit = null, swapId = 0, gliding = 0, raf = 0;
+
+  // the side text crosses over to the new reply's name and sentence
+  const swap = (p) => {
+    const id = ++swapId;
+    const set = () => { name.textContent = p.dataset.name; text.textContent = p.dataset.text; };
+    if (calm || !lit) return set();
+    const out = [name, text].map((el) => el.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(-8px)" }], { duration: 150, easing: "ease-in", fill: "forwards" }));
+    out[1].finished.then(() => {
+      if (id !== swapId) return;
+      set();
+      out.forEach((a) => a.cancel());
+      [name, text].forEach((el, i) => el.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 450, delay: i * 60, easing: "cubic-bezier(.16, 1, .3, 1)", fill: "backwards" }));
+    }, () => {});
   };
-  light(panels[0]);
-  const pick = () => {
-    const mid = row.getBoundingClientRect().left + row.clientWidth / 2;
+  const light = (p) => {
+    if (!p || p === lit) return;
+    swap(p);
+    lit = p;
+    panels.forEach((x) => x.classList.toggle("is-lit", x === p));
+    const i = panels.indexOf(p);
+    prev.classList.toggle("is-off", i === 0);                   // no arrow pointing past the first reply
+    next.classList.toggle("is-off", i === panels.length - 1);   // or past the last
+    if (document.activeElement && document.activeElement.classList.contains("is-off")) (i === 0 ? next : prev).focus();
+  };
+  // how far each reply is from the middle (0 = in focus, 1 = a whole slot away), read by the CSS blur and scale
+  const focus = () => {
+    const mid = row.scrollLeft + row.clientWidth / 2;
     let best = null, dist = Infinity;
-    panels.forEach((p) => { const r = p.getBoundingClientRect(); const d = Math.abs(r.left + r.width / 2 - mid); if (d < dist) { dist = d; best = p; } });
+    panels.forEach((p) => {
+      const d = Math.abs(p.offsetLeft + p.offsetWidth / 2 - mid);
+      p.style.setProperty("--k", Math.min(1, d / slot).toFixed(3));
+      if (d < dist) { dist = d; best = p; }
+    });
     light(best);
   };
-  let raf = 0;
-  row.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(pick); }, { passive: true });
-  const go = (step) => {
-    const i = Math.max(0, Math.min(panels.length - 1, panels.indexOf(lit) + step));
-    const p = panels[i];
-    row.scrollTo({ left: p.offsetLeft + p.offsetWidth / 2 - row.clientWidth / 2, behavior: calm ? "auto" : "smooth" });
-    light(p);
+  const centre = (p) => p.offsetLeft + p.offsetWidth / 2 - row.clientWidth / 2;
+  // an eased glide of our own (the browser's smooth scroll is abrupt); snapping is paused while it runs
+  const stop = () => { if (gliding) { cancelAnimationFrame(gliding); gliding = 0; row.classList.remove("is-gliding"); } };
+  const glide = (to) => {
+    stop();
+    if (calm) { row.scrollLeft = to; return; }
+    row.classList.add("is-gliding");
+    const from = row.scrollLeft, t0 = performance.now(), dur = 760;
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / dur);
+      row.scrollLeft = from + (to - from) * ease(t);
+      if (t < 1) gliding = requestAnimationFrame(step);
+      else { gliding = 0; row.classList.remove("is-gliding"); }
+    };
+    gliding = requestAnimationFrame(step);
   };
-  document.querySelector("[data-row-prev]").addEventListener("click", () => go(-1));
-  document.querySelector("[data-row-next]").addEventListener("click", () => go(1));
+  const go = (step) => glide(centre(panels[Math.max(0, Math.min(panels.length - 1, panels.indexOf(lit) + step))]));
+
+  focus();
+  row.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(focus); }, { passive: true });
+  addEventListener("resize", focus);
+  addEventListener("load", focus);
+  row.addEventListener("wheel", stop, { passive: true });
+  row.addEventListener("touchstart", stop, { passive: true });
+  prev.addEventListener("click", () => go(-1));
+  next.addEventListener("click", () => go(1));
   row.addEventListener("keydown", (e) => {
     if (e.key === "ArrowRight") { e.preventDefault(); go(1); }
     if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
   });
-  // drag with a mouse (touch already swipes)
+  // drag with a mouse (touch already swipes); on release it settles on the nearest reply
   let down = null;
-  row.addEventListener("pointerdown", (e) => { if (e.pointerType === "mouse") down = { x: e.clientX, left: row.scrollLeft }; });
+  row.addEventListener("pointerdown", (e) => { if (e.pointerType === "mouse") { stop(); down = { x: e.clientX, left: row.scrollLeft }; row.classList.add("is-dragging"); } });
   addEventListener("pointermove", (e) => { if (down) row.scrollLeft = down.left - (e.clientX - down.x); });
-  addEventListener("pointerup", () => { if (down) { down = null; pick(); go(0); } });
+  addEventListener("pointerup", () => { if (down) { down = null; row.classList.remove("is-dragging"); focus(); go(0); } });
 })();
 
 /* ---------- Setup: the controls change the channel preview ---------- */
@@ -261,21 +302,15 @@ function discordText(raw, values) {
   const preview = document.querySelector("[data-setup-preview]");
   if (!preview) return;
   const values = { user: '<span class="dc-mention">@juno</span>', name: "juno", server: "Cozy Corner", count: "128" };
-  const levelValues = { user: '<span class="dc-mention">@maya</span>', name: "maya", level: "13" };
   const welcomeIn = document.querySelector("[data-set-welcome]");
-  const levelIn = document.querySelector("[data-set-levelmsg]");
   const outWelcome = preview.querySelector("[data-out-welcome]");
-  const outLevel = preview.querySelector("[data-out-levelmsg]");
   const spam = preview.querySelector("[data-out-spam]");
   const blocked = preview.querySelector("[data-out-blocked]");
   const levelup = preview.querySelector("[data-out-levelup]");
   const flash = (el) => { if (!calm) el.animate([{ backgroundColor: "rgba(245,166,35,.28)" }, { backgroundColor: "transparent" }], { duration: 900, easing: "ease-out" }); };
   const welcome = () => { outWelcome.innerHTML = discordText(welcomeIn.value || " ", values); };
-  const level = () => { outLevel.innerHTML = discordText(levelIn.value || " ", levelValues); };
   welcomeIn.addEventListener("input", welcome);
-  levelIn.addEventListener("input", level);
   welcomeIn.addEventListener("change", () => flash(outWelcome.closest(".dc-msg")));
-  levelIn.addEventListener("change", () => flash(levelup));
   const sw = document.querySelector("[data-set-invites]");
   sw.addEventListener("click", () => {
     const on = sw.getAttribute("aria-checked") !== "true";
@@ -289,7 +324,30 @@ function discordText(raw, values) {
     levelup.hidden = b.dataset.setLevelup === "off";
     if (!levelup.hidden) flash(levelup);
   }));
-  welcome(); level();
+  welcome();
+})();
+
+/* ---------- Getting started: each field performs its step once it's in view; the fragments tilt toward the mouse ---------- */
+(() => {
+  const steps = [...document.querySelectorAll("[data-step]")];
+  if (!steps.length) return;
+  if (document.documentElement.classList.contains("motion")) {
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add("is-on"); io.unobserve(e.target); }
+    }), { threshold: 0.3 });
+    steps.forEach((s) => io.observe(s));
+  } else steps.forEach((s) => s.classList.add("is-on"));
+  if (calm) return;
+  steps.forEach((step) => {
+    const card = step.querySelector(".frag .dc");
+    step.addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse") return;
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(800px) rotateX(${(-y * 9).toFixed(1)}deg) rotateY(${(x * 11).toFixed(1)}deg) translateY(-6px)`;
+    });
+    step.addEventListener("pointerleave", () => { card.style.transform = ""; });
+  });
 })();
 
 /* ---------- Questions: one open at a time (hover, click or keyboard focus selects on wide screens) ---------- */

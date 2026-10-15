@@ -56,7 +56,7 @@
     <a class="btn hide-xs" href="#" data-invite>Add to Discord</a>
   </nav>
 </header>
-<main id="main" tabindex="-1">
+<main id="main" class="home" tabindex="-1">
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero-left">
@@ -112,17 +112,18 @@
 
 <section class="showcase" aria-labelledby="show-title">
   <div class="row" tabindex="0" aria-label="Replies Vellix posts in a server. Scroll sideways for more." data-row>
-    <div class="panel" data-name="Two levels at once" data-text="Server XP stays in your server. Global XP follows each member to every server with Vellix.">
+    <div class="panel" data-name="Moderation with a record" data-text="Warn, time out, kick or ban from one command. Each action also lands in your mod-log channel, with who did it and why.">
       <div class="dc dc-dark" data-ui>
         <ol class="dc-log">
-          <li class="dc-msg"><span class="dc-av av-maya" aria-hidden="true">M</span><div><p class="dc-used"><b>maya</b> used <span class="slash">/rank</span></p></div></li>
+          <li class="dc-msg"><span class="dc-av av-kai" aria-hidden="true">K</span><div><p class="dc-used"><b>kai</b> used <span class="slash">/timeout</span></p></div></li>
           <li class="dc-msg"><span class="dc-av" aria-hidden="true"><img src="/assets/favicon.png" alt="" width="40" height="40"></span>
-          <div><p><span class="dc-name">Vellix</span><span class="dc-app">APP</span><span class="dc-time">Today at 6:03 PM</span></p>
-          <div class="dc-embed" style="--bar:#e8243c">
-            <p class="t">maya</p>
-            <div class="f"><p class="fn">🏠 Server · Level 12 · #3</p><p class="meter">▰▰▰▰▰▰▰▰▱▱▱▱▱▱</p><p>880 / 1,420 XP · 7,910 total</p></div> <!-- taste-skill-ignore: Vellix's real reply text -->
-            <div class="f"><p class="fn">🌍 Global · Level 27 · #148</p><p class="meter">▰▰▰▰▱▱▱▱▱▱▱▱▱▱</p><p>1,790 / 5,095 XP · 53,045 total</p></div> <!-- taste-skill-ignore: Vellix's real reply text -->
-            <p class="foot">Every global level-up pays 100 × level in coins</p>
+          <div><p><span class="dc-name">Vellix</span><span class="dc-app">APP</span><span class="dc-time">Today at 6:15 PM</span></p>
+          <div class="dc-embed" style="--bar:#2fa866"><p>✅ Timed out <strong>sam</strong> for 10 minute(s).</p></div> <!-- taste-skill-ignore: Vellix's real reply text -->
+          <div class="dc-embed" style="--bar:#f5a623">
+            <p class="t">🛡️ Timeout (10m)</p> <!-- taste-skill-ignore: Vellix's real reply text -->
+            <div class="dc-fields"><div><p class="fn">User</p><p><span class="dc-mention">@sam</span></p></div><div><p class="fn">Moderator</p><p><span class="dc-mention">@kai</span></p></div></div>
+            <div class="f"><p class="fn">Reason</p><p>Spamming invite links</p></div>
+            <p class="foot">Posted in #mod-log · Today at 6:15 PM</p>
           </div></div></li>
         </ol>
       </div>
@@ -158,25 +159,6 @@
         </li></ol>
       </div>
     </div>
-    <div class="panel" data-name="AutoMod" data-text="Invite links, spam, mass pings and blocked words, removed as they arrive. Each filter stays off until staff turn it on.">
-      <div class="dc dc-dark" data-ui>
-        <ol class="dc-log">
-          <li class="dc-msg"><span class="dc-av av-sam" aria-hidden="true">S</span><div><p><span class="dc-name">sam</span><span class="dc-time">Today at 6:15 PM</span></p><p class="dc-gone">Message removed by AutoMod</p></div></li>
-          <li class="dc-msg"><span class="dc-av" aria-hidden="true"><img src="/assets/favicon.png" alt="" width="40" height="40"></span>
-          <div><p><span class="dc-name">Vellix</span><span class="dc-app">APP</span><span class="dc-time">Today at 6:15 PM</span></p>
-          <p class="dc-text"><span class="dc-mention">@sam</span>, invite link isn't allowed here.</p></div></li>
-        </ol>
-      </div>
-    </div>
-    <div class="panel" data-name="Welcome messages" data-text="Greets everyone who joins, counts them in, and can give each new member a starting role.">
-      <div class="dc dc-dark" data-ui>
-        <ol class="dc-log"><li class="dc-msg">
-          <span class="dc-av" aria-hidden="true"><img src="/assets/favicon.png" alt="" width="40" height="40"></span>
-          <div><p><span class="dc-name">Vellix</span><span class="dc-app">APP</span><span class="dc-time">Today at 6:20 PM</span></p>
-          <p class="dc-text">Welcome <span class="dc-mention">@juno</span> to <strong>Cozy Corner</strong>! You are member #128.</p></div>
-        </li></ol>
-      </div>
-    </div>
     <div class="panel" data-name="Reminders" data-text="Ask for a nudge in ten minutes or ten days. Vellix pings you in the same channel, or by DM.">
       <div class="dc dc-dark" data-ui>
         <ol class="dc-log">
@@ -187,19 +169,10 @@
         </ol>
       </div>
     </div>
-    <div class="panel" data-name="Level-ups" data-text="Every message earns XP. When someone levels up, Vellix says so, in the chat or in a channel you pick.">
-      <div class="dc dc-dark" data-ui>
-        <ol class="dc-log"><li class="dc-msg">
-          <span class="dc-av" aria-hidden="true"><img src="/assets/favicon.png" alt="" width="40" height="40"></span>
-          <div><p><span class="dc-name">Vellix</span><span class="dc-app">APP</span><span class="dc-time">Today at 6:02 PM</span></p>
-          <p class="dc-text">GG <span class="dc-mention">@maya</span>, you reached <strong>level 13</strong>!</p></div>
-        </li></ol>
-      </div>
-    </div>
   </div>
   <div class="showcase-side">
-    <h2 id="show-title" data-side-name>Two levels at once</h2>
-    <p data-side-text>Server XP stays in your server. Global XP follows each member to every server with Vellix.</p>
+    <h2 id="show-title" data-side-name>Moderation with a record</h2>
+    <p data-side-text>Warn, time out, kick or ban from one command. Each action also lands in your mod-log channel, with who did it and why.</p>
     <div class="showcase-nav">
       <button type="button" data-row-prev aria-label="Previous reply"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
       <button type="button" data-row-next aria-label="Next reply"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -235,7 +208,7 @@
         <li class="dc-msg" data-out-levelup>
           <span class="dc-av" aria-hidden="true"><img src="/assets/favicon.png" alt="" width="40" height="40"></span>
           <div><p><span class="dc-name">Vellix</span><span class="dc-app">APP</span><span class="dc-time">Today at 5:03 PM</span></p>
-          <p class="dc-text" data-out-levelmsg>GG <span class="dc-mention">@maya</span>, you reached <strong>level 13</strong>!</p></div>
+          <p class="dc-text">GG <span class="dc-mention">@maya</span>, you reached <strong>level 13</strong>!</p></div>
         </li>
       </ol>
     </div>
@@ -270,51 +243,19 @@
           <button type="button" aria-pressed="true" data-set-levelup="on">In the chat</button>
           <button type="button" aria-pressed="false" data-set-levelup="off">Off</button>
         </div>
-      </div>
-    </div>
-
-    <div class="block" data-reveal>
-      <h3>Say it your way, too.</h3>
-      <p><strong>{user}</strong> and <strong>{level}</strong> fill themselves in.</p>
-      <div class="control">
-        <label for="set-levelmsg">Level-up message</label>
-        <input class="field" id="set-levelmsg" maxlength="200" value="GG {user}, you reached **level {level}**!" data-set-levelmsg>
         <p class="hint">Server XP goes up 15 to 25 a message, once a minute. Staff can speed it up or slow it down from 0.25× to 3×.</p>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="xp" aria-labelledby="xp-title">
-  <div class="xp-head">
-    <p class="xp-figure" data-reveal aria-hidden="true">15–25 XP</p>
-    <h2 id="xp-title" data-reveal><span class="sr-only">15 to 25 XP </span>for each message, at most once a minute</h2>
-    <p data-reveal>Each level needs a little more than the last. Every fifth global level also pays an Ember. Global XP shares one cooldown across every server, so joining more servers doesn't speed it up.</p>
   </div>
-  <ol class="bars" data-ui data-reveal aria-label="XP needed for each level, levels 1 to 12">
-    <li style="--v:100;--i:0" tabindex="0"><span class="val">100</span><span class="lv">Lv 1</span></li>
-    <li style="--v:155;--i:1" tabindex="0"><span class="val tip">155</span><span class="lv">2</span></li>
-    <li style="--v:220;--i:2" tabindex="0"><span class="val tip">220</span><span class="lv">3</span></li>
-    <li style="--v:295;--i:3" tabindex="0"><span class="val tip">295</span><span class="lv">4</span></li>
-    <li style="--v:380;--i:4" tabindex="0" class="is-accent"><span class="val">380</span><span class="lv">5</span></li>
-    <li style="--v:475;--i:5" tabindex="0"><span class="val tip">475</span><span class="lv">6</span></li>
-    <li style="--v:580;--i:6" tabindex="0"><span class="val tip">580</span><span class="lv">7</span></li>
-    <li style="--v:695;--i:7" tabindex="0"><span class="val tip">695</span><span class="lv">8</span></li>
-    <li style="--v:820;--i:8" tabindex="0"><span class="val tip">820</span><span class="lv">9</span></li>
-    <li style="--v:955;--i:9" tabindex="0"><span class="val tip">955</span><span class="lv">10</span></li>
-    <li style="--v:1100;--i:10" tabindex="0"><span class="val tip">1,100</span><span class="lv">11</span></li>
-    <li style="--v:1255;--i:11" tabindex="0"><span class="val">1,255</span><span class="lv">12</span></li>
-  </ol>
 </section>
 
 <section class="styles" aria-labelledby="styles-title">
   <div class="styles-head">
-    <h2 id="styles-title" data-reveal>Six card styles</h2>
-    <p data-reveal><span class="cmd">/balance</span> shows a wallet card with your coins, bank and Embers. These are example cards, drawn by the same code the bot uses. Embers switch your card to a new style.</p>
+    <h2 id="styles-title" data-reveal>Five more card styles</h2>
+    <p data-reveal>Everyone starts with the Ember card from the top of this page. Embers, the rare currency, switch it to one of these. They're example cards, drawn by the same code the bot uses.</p>
   </div>
   <div class="tiles">
-    <figure class="tile" data-reveal><div class="pic"><img src="/assets/cards/ember.webp" width="800" height="504" loading="lazy" alt="Example wallet card in the Ember style: crimson to amber"></div>
-      <figcaption class="strip-1"><b>Ember</b><span>Free</span><span class="how">Everyone starts with it</span></figcaption></figure>
     <figure class="tile" data-reveal><div class="pic"><img src="/assets/cards/cream.webp" width="800" height="504" loading="lazy" alt="Example wallet card in the Cream style: pale cream with wine text"></div>
       <figcaption class="strip-2"><b>Cream</b><span>3 Embers</span><span class="how">/card buy cream</span></figcaption></figure>
     <figure class="tile" data-reveal><div class="pic"><img src="/assets/cards/midnight.webp" width="800" height="504" loading="lazy" alt="Example wallet card in the Midnight style: warm dark grey"></div>
@@ -325,48 +266,61 @@
       <figcaption class="strip-1"><b>Lagoon</b><span>8 Embers</span><span class="how">/card buy lagoon</span></figcaption></figure>
     <figure class="tile" data-reveal><div class="pic"><img src="/assets/cards/gold.webp" width="800" height="504" loading="lazy" alt="Example wallet card in the Gold style: warm gold with wine text"></div>
       <figcaption class="strip-2"><b>Gold</b><span>20 Embers</span><span class="how">/card buy gold</span></figcaption></figure>
-  </div>
-  <div class="styles-note">
-    <p data-reveal>Embers come slowly: one on every 7th day of a <span class="cmd">/daily</span> streak, one with each <span class="cmd">/weekly</span>, now and then from <span class="cmd">/work</span>, one every fifth global level, and a few from a slots jackpot. One Ember also trades for 2,500 coins.</p>
-    <p data-reveal>Coins and Embers are just for fun. They can't be bought, sold, or cashed out, and server admins can switch games off at any time.</p>
+    <div class="tile tile-note" data-reveal>
+      <p>Embers come slowly: one on every 7th day of a <span class="cmd">/daily</span> streak, one with each <span class="cmd">/weekly</span>, now and then from <span class="cmd">/work</span>, one every fifth global level, and a few from a slots jackpot. One Ember also trades for 2,500 coins.</p>
+      <p class="quiet">Coins and Embers are just for fun. They can't be bought, sold, or cashed out, and server admins can switch games off at any time.</p>
+    </div>
   </div>
 </section>
 
 <section class="steps" aria-labelledby="steps-title">
-  <div class="step">
+  <div class="step" data-step>
     <h2 id="steps-title">Add Vellix</h2>
-    <div class="frag" data-reveal><div class="dc mini" data-ui>
+    <div class="frag"><div class="dc mini" data-ui>
       <p class="t">Add to server</p>
-      <p class="sel"><span>Cozy Corner</span><span aria-hidden="true">▾</span></p>
+      <p class="sel"><span class="pick"><span class="was" aria-hidden="true">Choose a server…</span><span class="now">Cozy Corner</span></span><span aria-hidden="true">▾</span></p>
       <p class="go">Authorize</p>
     </div></div>
     <p class="clause">First, invite it to your server.</p>
   </div>
-  <div class="step">
-    <div class="frag" data-reveal><div class="dc mini" data-ui>
+  <div class="step" data-step>
+    <div class="frag"><div class="dc mini" data-ui>
       <p class="t">Roles</p>
       <p class="role"><i style="background:#c0392b"></i>Admin</p>
       <p class="role is-moved"><i style="background:#e8243c"></i>Vellix<span class="grip" aria-hidden="true">⋮⋮</span></p>
-      <p class="role"><i style="background:#3a7d6b"></i>Moderators</p>
-      <p class="role"><i style="background:#949ba4"></i>Members</p>
+      <p class="role is-down"><i style="background:#3a7d6b"></i>Moderators</p>
+      <p class="role is-down"><i style="background:#949ba4"></i>Members</p>
     </div></div>
     <p class="clause">Then move its role above the members.</p>
   </div>
-  <div class="step">
-    <div class="frag" data-reveal><div class="dc mini" data-ui>
+  <div class="step" data-step>
+    <div class="frag"><div class="dc mini" data-ui>
       <div class="dc-embed" style="--bar:#e8243c;margin:0">
         <p class="t">Vellix Help</p>
         <p>Pick a category below to see its commands.</p>
       </div>
       <p class="sel"><span>Choose a category…</span><span aria-hidden="true">▾</span></p>
+      <div class="menu" aria-hidden="true">
+        <p style="--n:0">🛡️ Moderation</p> <!-- taste-skill-ignore: Vellix's real menu labels -->
+        <p style="--n:1">📈 Leveling</p> <!-- taste-skill-ignore: Vellix's real menu labels -->
+        <p style="--n:2" class="is-pick">🪙 Economy &amp; Embers</p> <!-- taste-skill-ignore: Vellix's real menu labels -->
+        <p style="--n:3">🎰 Gambling</p> <!-- taste-skill-ignore: Vellix's real menu labels -->
+        <p style="--n:4">🧰 Utility</p> <!-- taste-skill-ignore: Vellix's real menu labels -->
+      </div>
     </div></div>
     <p class="clause">Type /help to see everything.</p>
   </div>
-  <div class="step">
-    <div class="frag" data-reveal><div class="dc mini" data-ui>
-      <p class="dc-text">GG <span class="dc-mention">@maya</span>, you reached <strong>level 1</strong>!</p>
+  <div class="step" data-step>
+    <div class="frag"><div class="dc mini" data-ui>
+      <div class="dc-embed" style="--bar:#e8243c;margin:0">
+        <p class="t">🏠 Cozy Corner Leaderboard</p> <!-- taste-skill-ignore: Vellix's real reply text -->
+        <p class="lb" style="--n:0">🥇 <strong>maya</strong> — Level 12 · 7,910 XP</p> <!-- taste-skill-ignore: Vellix's real reply text -->
+        <p class="lb" style="--n:1">🥈 <strong>kai</strong> — Level 11 · 6,480 XP</p> <!-- taste-skill-ignore: Vellix's real reply text -->
+        <p class="lb" style="--n:2">🥉 <strong>juno</strong> — Level 9 · 4,210 XP</p> <!-- taste-skill-ignore: Vellix's real reply text -->
+        <p class="foot">Page 1 · /leaderboard page:2 for more</p>
+      </div>
     </div></div>
-    <p class="clause">Then just talk. Levels start with the next message.</p>
+    <p class="clause">Then just talk. The leaderboard fills in by itself.</p>
   </div>
 </section>
 
@@ -415,27 +369,18 @@
 </section>
 
 </main>
-<footer class="foot">
-  <div class="foot-grid" data-reveal="fade">
-    <div class="tile-f t-statement">
-      <p class="line">A friendly Discord bot for moderation, levels and one shared wallet.</p>
-      <p class="footer-about">&copy; <span data-year>2026</span> Vellix. Run by an independent developer in the United States. Free to use. Not affiliated with Discord.</p>
-    </div>
-    <nav class="tile-f t-nav" aria-label="Footer">
-      <a href="/commands/">Commands</a>
-      <a href="#" data-dashboard>Dashboard</a>
-      <a href="/terms/">Terms of Service</a>
-      <a href="/privacy/">Privacy Policy</a>
-      <a href="/cookies/">Cookie Policy</a>
-      <a href="/refunds/">Refund Policy</a>
-      <a href="#" data-support>Support server (contact)</a>
-    </nav>
-    <div class="tile-f t-count"><p class="n">96</p><p>commands, all on the <a href="/commands/">commands page</a></p></div>
-    <div class="tile-f t-contact"><p>Questions or data requests? Ask on Discord.</p><a href="#" data-support>Support server</a></div>
-    <div class="tile-f t-word" aria-hidden="true">VELLIX</div>
-    <a class="tile-f t-go" href="#" data-invite><span>Add Vellix to Discord</span>
-      <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 42 42 14M20 14h22v22"/></svg></a>
-  </div>
+<footer class="site-foot">
+  <p class="foot-word" aria-hidden="true" translate="no" data-reveal="fade">VELLIX</p>
+  <nav aria-label="Footer" data-reveal="fade">
+    <a href="/commands/">Commands</a>
+    <a href="#" data-dashboard>Dashboard</a>
+    <a href="/terms/">Terms of Service</a>
+    <a href="/privacy/">Privacy Policy</a>
+    <a href="/cookies/">Cookie Policy</a>
+    <a href="/refunds/">Refund Policy</a>
+    <a href="#" data-support>Support server (contact)</a>
+  </nav>
+  <p class="footer-about" data-reveal="fade">&copy; <span data-year>2026</span> Vellix. Run by an independent developer in the United States. Free to use. Not affiliated with Discord.</p>
 </footer>
 <script src="/assets/site.js"></script>
 </body>
