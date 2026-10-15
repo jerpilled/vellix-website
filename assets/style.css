@@ -180,7 +180,7 @@ h3 { font-weight: 500; font-size: 20px; margin: 0 0 6px; }
 .pillar p { color: var(--ink-soft); margin: 0 0 14px; }
 .pillar ul { margin: 0 0 18px; padding: 0; list-style: none; }
 .pillar li { padding: 7px 0; border-bottom: 1px dashed var(--line); }
-.pillar code, .cmd { font: 500 14px var(--font); color: var(--crimson-text); }
+.pillar code, .page-head code, .cmd { font: 500 14px var(--font); color: var(--crimson-text); }
 
 /* global vs server levels */
 .levels { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: center; }

@@ -60,8 +60,8 @@
 <main id="main" tabindex="-1">
 
 <div class="wrap legal">
-  <div class="page-head"><h1>Privacy Policy</h1><p>Last updated October 13, 2026</p></div>
-  <p>Vellix is a free Discord bot, website, and dashboard run by an independent developer in the United States ("we", "us"). This policy explains what Vellix collects, why, and the choices you have. In short: Vellix stores only what its features need, never stores the text of your messages, never sells data, and does not track you.</p>
+  <div class="page-head"><h1>Privacy Policy</h1><p>Last updated October 14, 2026</p></div>
+  <p>Vellix is a free Discord bot, website, and dashboard run by an independent developer in the United States ("we", "us"). This policy explains what Vellix collects, why, and the choices you have. In short: Vellix stores only what its features need, never stores the text of your chat messages, never sells data, and does not track you.</p>
 
   <h2>1. Data the bot stores</h2>
   <table>
@@ -69,14 +69,17 @@
     <tbody>
       <tr><td>Account info</td><td>Discord user ID and username</td><td>To link your levels and coins to you and show your name on global leaderboards</td></tr>
       <tr><td>Leveling</td><td>XP and number of XP-earning messages, globally and per server</td><td>Levels, ranks, and leaderboards</td></tr>
-      <tr><td>Economy</td><td>Wallet and bank balances, reward cooldown times, daily streak, total coins won and lost in games</td><td>The global economy and games</td></tr>
+      <tr><td>Economy</td><td>Wallet and bank balances, Embers, the wallet-card styles you unlocked and chose, reward cooldown times, daily streak, total coins won and lost in games</td><td>The global economy, games, and your wallet card</td></tr>
       <tr><td>Leaderboard setting</td><td>Whether you chose to hide your name on global leaderboards</td><td>To respect that choice</td></tr>
       <tr><td>Warnings</td><td>Server ID, warned user ID, moderator ID, reason, date</td><td>So server staff can review warning history</td></tr>
       <tr><td>Server settings</td><td>Server ID, chosen channel and role IDs, feature switches, welcome, leave and level-up messages, blocked words, allowed websites, level rewards</td><td>To run each server's features the way its staff set them up</td></tr>
       <tr><td>Custom commands and auto-replies</td><td>The name, trigger, and reply text written by server staff, the user ID of the staff member who created a command, and how often it was used</td><td>To answer custom commands and keywords in that server</td></tr>
+      <tr><td>AFK status</td><td>Server ID, your user ID, the status text you typed with /afk, and when you set it</td><td>To tell people you're away when they mention you</td></tr>
+      <tr><td>Highlights</td><td>Server ID, your user ID, and the words you chose with /highlights</td><td>To DM you when those words are said</td></tr>
+      <tr><td>Reminders</td><td>Your user ID, the server and channel you set it in, the reminder text, and when it's due</td><td>To send you the reminder</td></tr>
     </tbody>
   </table>
-  <p>Vellix does not collect your email, real name, IP address, payment details, or direct messages, and does not store profile pictures or details about servers beyond the settings above.</p>
+  <p>Vellix does not collect your email, real name, IP address, payment details, or direct messages, and does not store profile pictures or details about servers beyond the settings above. <span class="cmd">/balance</span> and <span class="cmd">/vellixavatar</span> download a profile picture for a moment to draw their image, then discard it.</p>
 
   <h2>2. Message content</h2>
   <p>Vellix reads messages as they are sent but does not save their text.</p>
@@ -84,6 +87,8 @@
     <li><strong>Leveling</strong> only notes that you sent a message, so it can award XP.</li>
     <li><strong>AutoMod</strong>, when a server turns it on, checks messages for spam, links, invites, mass mentions, and blocked words. Recent message times are kept in memory for a few seconds to detect spam, then discarded.</li>
     <li><strong>Custom commands and auto-replies</strong> compare a message with that server's triggers and reply if it matches. The message itself is not stored.</li>
+    <li><strong>Commands by mention.</strong> A message that starts by mentioning Vellix (like "@Vellix balance") is read as a command and answered. It is not stored.</li>
+    <li><strong>AFK and highlights</strong> check each message for mentions of people who are AFK and for words people chose to highlight. This happens in memory and the message is not stored.</li>
     <li><strong>Server logs and mod logs</strong>, when a server turns them on, post copies of edited or deleted messages, and messages removed by AutoMod, into a channel in that same server. Those copies live in Discord, are controlled by that server's staff, and are not stored by Vellix.</li>
   </ul>
 
@@ -109,6 +114,8 @@
     <li><strong>Global leaderboards</strong> show your username, level, and coin total to users in every server that has Vellix. You can hide your name (section 7).</li>
     <li><strong>Server leaderboards</strong> show members' display names and levels to that server.</li>
     <li><strong>Server staff</strong> can see warnings, settings, and custom commands for their own server only.</li>
+    <li><strong>Highlights.</strong> When someone says a word you highlight, Vellix DMs you that message and up to four messages before it, with a link. You only get messages from channels you can already read.</li>
+    <li><strong>AFK.</strong> Your AFK status text is shown in the server where you set it when someone mentions you.</li>
     <li><strong>Legal requests.</strong> We may share data if the law requires it, or to protect users or Vellix from harm.</li>
   </ul>
   <p>Vellix runs through Discord, so Discord also processes this data under the <a href="https://discord.com/privacy">Discord Privacy Policy</a>.</p>
@@ -119,6 +126,7 @@
     <li><strong>Levels and coins</strong> are kept while you use Vellix, so your progress is still there when you come back.</li>
     <li><strong>Warnings</strong> are kept until server staff delete them with <span class="cmd">/delwarn</span> or <span class="cmd">/clearwarnings</span>, or until you ask us to delete them.</li>
     <li><strong>Server settings and custom commands</strong> are kept after Vellix leaves a server, so they return if it is added again. Server owners can ask us to delete them.</li>
+    <li><strong>AFK statuses</strong> are deleted when you next send a message in that server. <strong>Highlights</strong> are kept until you remove them with <span class="cmd">/highlights remove</span> or <span class="cmd">/highlights clear</span>. <strong>Reminders</strong> are deleted as soon as they are sent or cancelled. All three are deleted for a server when Vellix leaves it.</li>
   </ul>
   <p>No system is perfectly secure. If a data breach affecting users ever happens, we will announce it in the support server.</p>
 
