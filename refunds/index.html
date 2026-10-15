@@ -15,23 +15,24 @@
   /* Theme, applied before the page draws so it never flashes:
      a ?theme= handed over from the dashboard wins, then this browser's saved choice, then the system setting */
   (function () {
-    var t = null, fromLink = new URLSearchParams(location.search).get("theme");
+    var d = document.documentElement, t = null, fromLink = new URLSearchParams(location.search).get("theme");
+    d.classList.add("js");
     try {
       if (fromLink === "light" || fromLink === "dark") localStorage.setItem("vellix-theme", fromLink);
       t = localStorage.getItem("vellix-theme");
     } catch (e) { t = fromLink; }
     if (t !== "light" && t !== "dark") t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    document.documentElement.dataset.theme = t;
+    d.dataset.theme = t;
     /* Coming back from the dashboard: hide the orb until site.js glides it home (failsafe after 2.5 s) */
-    if (location.hash === "#from-dashboard") {
-      document.documentElement.classList.add("vx-arrive");
-      setTimeout(function () { document.documentElement.classList.remove("vx-arrive"); }, 2500);
+    if (location.hash === "#from-dashboard" || location.hash === "#from-glow") {
+      d.classList.add("vx-arrive");
+      setTimeout(function () { d.classList.remove("vx-arrive"); }, 2500);
     }
     /* Motion: only when the visitor hasn't asked for reduced motion. If site.js never
        starts (blocked or failed), the timer removes the class so nothing stays hidden. */
     if (window.IntersectionObserver && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      document.documentElement.classList.add("motion");
-      setTimeout(function () { if (!window.vxMotion) document.documentElement.classList.remove("motion"); }, 2500);
+      d.classList.add("motion");
+      setTimeout(function () { if (!window.vxMotion) d.classList.remove("motion"); }, 2500);
     }
   })();
 </script>
@@ -42,31 +43,30 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <div class="wrap">
-    <a class="wordmark" href="/" aria-label="Vellix home"><img src="/assets/favicon.png" alt="">VELLIX</a>
-    <nav class="nav" aria-label="Main">
-      <a href="/commands/">Commands</a>
-      <a href="#" data-support>Support</a>
-      <a href="#" data-dashboard>Dashboard</a>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode">
-        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>
-        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
-      </button>
-      <a class="btn btn-primary" href="#" data-invite>Add to Discord</a>
-    </nav>
-  </div>
+<header class="bar">
+  <a class="wordmark" href="/" aria-label="Vellix home" translate="no"><img src="/assets/favicon.png" alt="" width="34" height="34">VELLIX</a>
+  <nav aria-label="Main">
+    <a href="/commands/">Commands</a>
+    <a class="hide-sm" href="#" data-dashboard>Dashboard</a>
+    <a class="hide-sm" href="#" data-support>Support</a>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
+    </button>
+    <a class="btn hide-xs" href="#" data-invite>Add to Discord</a>
+  </nav>
 </header>
 <main id="main" tabindex="-1">
-
-<div class="wrap legal">
+<div class="page">
   <div class="page-head"><h1>Refund Policy</h1><p>Last updated October 14, 2026</p></div>
+  <nav class="side toc" aria-label="On this page"><p>On this page</p><a href="#coins-xp-and-games">1. Coins, XP, and games</a><a href="#donations">2. Donations</a><a href="#your-rights">3. Your rights</a><a href="#contact">4. Contact</a></nav>
+  <article class="page-main legal">
   <p>Vellix is free. There are no paid features, subscriptions, or purchases, so there is nothing to refund today.</p>
 
-  <h2>1. Coins, XP, and games</h2>
+  <h2 id="coins-xp-and-games">1. Coins, XP, and games</h2>
   <p>Vellix coins, Embers, card styles, XP, and levels can't be bought, sold, or exchanged for money, and games use virtual coins only. Coins lost in games, reset for cheating, or lost to a bug have no cash value and can't be refunded. See section 4 of the <a href="/terms/">Terms of Service</a>.</p>
 
-  <h2>2. Donations</h2>
+  <h2 id="donations">2. Donations</h2>
   <p>We may one day accept voluntary donations to help keep Vellix running. If we do:</p>
   <ul>
     <li>Donations are gifts. They don't buy features, coins, Embers, XP, levels, or any advantage.</li>
@@ -75,17 +75,21 @@
     <li>This page will be updated with the payment provider's details before donations open.</li>
   </ul>
 
-  <h2>3. Your rights</h2>
+  <h2 id="your-rights">3. Your rights</h2>
   <p>Nothing in this policy limits any refund rights you have under the consumer laws where you live.</p>
 
-  <h2>4. Contact</h2>
+  <h2 id="contact">4. Contact</h2>
   <p>Vellix is run by an independent developer in the United States. Questions? Contact the developer in <a href="#" data-support>the Vellix support server</a>.</p>
+  </article>
 </div>
 </main>
-<footer>
-  <div class="wrap" data-reveal="fade">
-    <p class="footer-about">&copy; <span data-year>2026</span> Vellix. Run by an independent developer in the United States.<br>Free to use. Not affiliated with Discord.</p>
-    <nav aria-label="Footer">
+<footer class="foot">
+  <div class="foot-grid" data-reveal="fade">
+    <div class="tile-f t-statement">
+      <p class="line">A friendly Discord bot for moderation, levels and one shared wallet.</p>
+      <p class="footer-about">&copy; <span data-year>2026</span> Vellix. Run by an independent developer in the United States. Free to use. Not affiliated with Discord.</p>
+    </div>
+    <nav class="tile-f t-nav" aria-label="Footer">
       <a href="/commands/">Commands</a>
       <a href="#" data-dashboard>Dashboard</a>
       <a href="/terms/">Terms of Service</a>
@@ -94,6 +98,11 @@
       <a href="/refunds/">Refund Policy</a>
       <a href="#" data-support>Support server (contact)</a>
     </nav>
+    <div class="tile-f t-count"><p class="n">96</p><p>commands, all on the <a href="/commands/">commands page</a></p></div>
+    <div class="tile-f t-contact"><p>Questions or data requests? Ask on Discord.</p><a href="#" data-support>Support server</a></div>
+    <div class="tile-f t-word" aria-hidden="true">VELLIX</div>
+    <a class="tile-f t-go" href="#" data-invite><span>Add Vellix to Discord</span>
+      <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 42 42 14M20 14h22v22"/></svg></a>
   </div>
 </footer>
 <script src="/assets/site.js"></script>

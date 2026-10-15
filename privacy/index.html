@@ -15,23 +15,24 @@
   /* Theme, applied before the page draws so it never flashes:
      a ?theme= handed over from the dashboard wins, then this browser's saved choice, then the system setting */
   (function () {
-    var t = null, fromLink = new URLSearchParams(location.search).get("theme");
+    var d = document.documentElement, t = null, fromLink = new URLSearchParams(location.search).get("theme");
+    d.classList.add("js");
     try {
       if (fromLink === "light" || fromLink === "dark") localStorage.setItem("vellix-theme", fromLink);
       t = localStorage.getItem("vellix-theme");
     } catch (e) { t = fromLink; }
     if (t !== "light" && t !== "dark") t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    document.documentElement.dataset.theme = t;
+    d.dataset.theme = t;
     /* Coming back from the dashboard: hide the orb until site.js glides it home (failsafe after 2.5 s) */
-    if (location.hash === "#from-dashboard") {
-      document.documentElement.classList.add("vx-arrive");
-      setTimeout(function () { document.documentElement.classList.remove("vx-arrive"); }, 2500);
+    if (location.hash === "#from-dashboard" || location.hash === "#from-glow") {
+      d.classList.add("vx-arrive");
+      setTimeout(function () { d.classList.remove("vx-arrive"); }, 2500);
     }
     /* Motion: only when the visitor hasn't asked for reduced motion. If site.js never
        starts (blocked or failed), the timer removes the class so nothing stays hidden. */
     if (window.IntersectionObserver && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      document.documentElement.classList.add("motion");
-      setTimeout(function () { if (!window.vxMotion) document.documentElement.classList.remove("motion"); }, 2500);
+      d.classList.add("motion");
+      setTimeout(function () { if (!window.vxMotion) d.classList.remove("motion"); }, 2500);
     }
   })();
 </script>
@@ -42,28 +43,27 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <div class="wrap">
-    <a class="wordmark" href="/" aria-label="Vellix home"><img src="/assets/favicon.png" alt="">VELLIX</a>
-    <nav class="nav" aria-label="Main">
-      <a href="/commands/">Commands</a>
-      <a href="#" data-support>Support</a>
-      <a href="#" data-dashboard>Dashboard</a>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode">
-        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>
-        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
-      </button>
-      <a class="btn btn-primary" href="#" data-invite>Add to Discord</a>
-    </nav>
-  </div>
+<header class="bar">
+  <a class="wordmark" href="/" aria-label="Vellix home" translate="no"><img src="/assets/favicon.png" alt="" width="34" height="34">VELLIX</a>
+  <nav aria-label="Main">
+    <a href="/commands/">Commands</a>
+    <a class="hide-sm" href="#" data-dashboard>Dashboard</a>
+    <a class="hide-sm" href="#" data-support>Support</a>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
+    </button>
+    <a class="btn hide-xs" href="#" data-invite>Add to Discord</a>
+  </nav>
 </header>
 <main id="main" tabindex="-1">
-
-<div class="wrap legal">
+<div class="page">
   <div class="page-head"><h1>Privacy Policy</h1><p>Last updated October 14, 2026</p></div>
+  <nav class="side toc" aria-label="On this page"><p>On this page</p><a href="#data-the-bot-stores">1. Data the bot stores</a><a href="#message-content">2. Message content</a><a href="#the-dashboard">3. The dashboard</a><a href="#the-website">4. The website</a><a href="#how-data-is-used-and-shared">5. How data is used and shared</a><a href="#storage-security-and-retention">6. Storage, security, and retention</a><a href="#your-choices-and-rights">7. Your choices and rights</a><a href="#children">8. Children</a><a href="#changes-and-contact">9. Changes and contact</a></nav>
+  <article class="page-main legal">
   <p>Vellix is a free Discord bot, website, and dashboard run by an independent developer in the United States ("we", "us"). This policy explains what Vellix collects, why, and the choices you have. In short: Vellix stores only what its features need, never stores the text of your chat messages, never sells data, and does not track you.</p>
 
-  <h2>1. Data the bot stores</h2>
+  <h2 id="data-the-bot-stores">1. Data the bot stores</h2>
   <table>
     <thead><tr><th scope="col">Data</th><th scope="col">What it includes</th><th scope="col">Why</th></tr></thead>
     <tbody>
@@ -81,7 +81,7 @@
   </table>
   <p>Vellix does not collect your email, real name, IP address, payment details, or direct messages, and does not store profile pictures or details about servers beyond the settings above. <span class="cmd">/balance</span> and <span class="cmd">/vellixavatar</span> download a profile picture for a moment to draw their image, then discard it.</p>
 
-  <h2>2. Message content</h2>
+  <h2 id="message-content">2. Message content</h2>
   <p>Vellix reads messages as they are sent but does not save their text.</p>
   <ul>
     <li><strong>Leveling</strong> only notes that you sent a message, so it can award XP.</li>
@@ -92,7 +92,7 @@
     <li><strong>Server logs and mod logs</strong>, when a server turns them on, post copies of edited or deleted messages, and messages removed by AutoMod, into a channel in that same server. Those copies live in Discord, are controlled by that server's staff, and are not stored by Vellix.</li>
   </ul>
 
-  <h2>3. The dashboard</h2>
+  <h2 id="the-dashboard">3. The dashboard</h2>
   <p>Server staff can manage Vellix on its web dashboard after logging in with Discord.</p>
   <ul>
     <li><strong>Login.</strong> Discord login uses the "identify" permission only. Vellix receives your Discord user ID, name, and avatar, so it can check which servers you manage and show who is logged in. It cannot see your email, servers you don't share with Vellix, or your messages.</li>
@@ -100,7 +100,7 @@
     <li><strong>Changes you make</strong> are saved as that server's settings (section 1). Messages sent with the message sender are posted to Discord and not stored by Vellix.</li>
   </ul>
 
-  <h2>4. The website</h2>
+  <h2 id="the-website">4. The website</h2>
   <p>This website has no accounts, forms, ads, analytics, or tracking, and it sets no cookies. It loads nothing from other companies: fonts and images come from this site.</p>
   <ul>
     <li><strong>Theme choice.</strong> If you pick light or dark mode, your browser remembers it in local storage (<code>vellix-theme</code>). It never leaves your device.</li>
@@ -108,7 +108,7 @@
     <li><strong>Do Not Track.</strong> Vellix doesn't track people across sites, so it has nothing to change when your browser sends a Do Not Track signal.</li>
   </ul>
 
-  <h2>5. How data is used and shared</h2>
+  <h2 id="how-data-is-used-and-shared">5. How data is used and shared</h2>
   <p>Data is used only to run Vellix's features. We never sell it, rent it, or use it for advertising.</p>
   <ul>
     <li><strong>Global leaderboards</strong> show your username, level, and coin total to users in every server that has Vellix. You can hide your name (section 7).</li>
@@ -120,7 +120,7 @@
   </ul>
   <p>Vellix runs through Discord, so Discord also processes this data under the <a href="https://discord.com/privacy">Discord Privacy Policy</a>.</p>
 
-  <h2>6. Storage, security, and retention</h2>
+  <h2 id="storage-security-and-retention">6. Storage, security, and retention</h2>
   <ul>
     <li>Vellix's data is kept in a private database on a computer controlled by the developer in the United States. Only the developer can access it, and the bot's login token is kept private. If you use Vellix from outside the United States, your data is processed there.</li>
     <li><strong>Levels and coins</strong> are kept while you use Vellix, so your progress is still there when you come back.</li>
@@ -130,7 +130,7 @@
   </ul>
   <p>No system is perfectly secure. If a data breach affecting users ever happens, we will announce it in the support server.</p>
 
-  <h2>7. Your choices and rights</h2>
+  <h2 id="your-choices-and-rights">7. Your choices and rights</h2>
   <ul>
     <li><strong>Hide your name</strong> on global leaderboards at any time with <span class="cmd">/lbprivacy</span>. You will show as "Anonymous" instead.</li>
     <li><strong>See your data.</strong> Ask for a copy of the data Vellix stores about you.</li>
@@ -140,18 +140,22 @@
   <p>These rights apply to everyone, wherever you live. If you are in the EU or UK, we process your data because running the features you use is in our and your legitimate interests (GDPR Article 6(1)(f)), you can also object to processing, and you can complain to your local data protection authority.</p>
   <p>To make a request, contact the developer in the support server (section 9). We respond within 30 days and may ask you to confirm the request from your Discord account.</p>
 
-  <h2>8. Children</h2>
+  <h2 id="children">8. Children</h2>
   <p>Vellix is only for people who meet Discord's minimum age in their country, which is at least 13. We do not knowingly collect data from anyone younger. If you believe a child's data is stored, contact us and we will delete it.</p>
 
-  <h2>9. Changes and contact</h2>
+  <h2 id="changes-and-contact">9. Changes and contact</h2>
   <p>We may update this policy when Vellix changes. We will update the "Last updated" date and announce major changes in the support server.</p>
   <p>Vellix is run by an independent developer in the United States. For questions or data requests, contact the developer in <a href="#" data-support>the Vellix support server</a>. See also the <a href="/terms/">Terms of Service</a> and <a href="/cookies/">Cookie Policy</a>.</p>
+  </article>
 </div>
 </main>
-<footer>
-  <div class="wrap" data-reveal="fade">
-    <p class="footer-about">&copy; <span data-year>2026</span> Vellix. Run by an independent developer in the United States.<br>Free to use. Not affiliated with Discord.</p>
-    <nav aria-label="Footer">
+<footer class="foot">
+  <div class="foot-grid" data-reveal="fade">
+    <div class="tile-f t-statement">
+      <p class="line">A friendly Discord bot for moderation, levels and one shared wallet.</p>
+      <p class="footer-about">&copy; <span data-year>2026</span> Vellix. Run by an independent developer in the United States. Free to use. Not affiliated with Discord.</p>
+    </div>
+    <nav class="tile-f t-nav" aria-label="Footer">
       <a href="/commands/">Commands</a>
       <a href="#" data-dashboard>Dashboard</a>
       <a href="/terms/">Terms of Service</a>
@@ -160,6 +164,11 @@
       <a href="/refunds/">Refund Policy</a>
       <a href="#" data-support>Support server (contact)</a>
     </nav>
+    <div class="tile-f t-count"><p class="n">96</p><p>commands, all on the <a href="/commands/">commands page</a></p></div>
+    <div class="tile-f t-contact"><p>Questions or data requests? Ask on Discord.</p><a href="#" data-support>Support server</a></div>
+    <div class="tile-f t-word" aria-hidden="true">VELLIX</div>
+    <a class="tile-f t-go" href="#" data-invite><span>Add Vellix to Discord</span>
+      <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 42 42 14M20 14h22v22"/></svg></a>
   </div>
 </footer>
 <script src="/assets/site.js"></script>
