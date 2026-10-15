@@ -296,6 +296,7 @@ main:focus { outline: none; }
 .styles-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; margin-bottom: 40px; }
 .styles-head h2 { grid-column: 1 / 6; font-size: var(--t-l); font-weight: 300; line-height: 1; letter-spacing: -.02em; }
 .styles-head p { grid-column: 7 / 12; align-self: end; }
+.styles-head a { font-weight: 600; text-underline-offset: 4px; }
 .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 12px; }
 .tile { position: relative; }
 .tile .pic { position: relative; z-index: 1; overflow: hidden; border-radius: 20px; }
@@ -446,6 +447,30 @@ main:focus { outline: none; }
 :root[data-theme="dark"] .cmd-table tr.is-target td { background: #3d332f; color: var(--ink); }
 .empty { padding: 24px 0; color: var(--muted); }
 
+/* card shop: the example card on the left, the six styles to try on the right, three notes under it */
+.shop-page .page-head { grid-column: 1 / 10; }
+.try { grid-column: 1 / -1; display: grid; grid-template-columns: 7fr 5fr; gap: 32px; align-items: start; }
+.try-card img { width: 100%; height: auto; border-radius: 20px; }
+.try-card figcaption { margin-top: 12px; color: var(--muted); font-size: var(--t-xs); }
+.try-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.style {
+  display: grid; grid-template-columns: 1fr auto; gap: 8px 10px; align-items: center; width: 100%; padding: 8px 10px 10px; border: 0;
+  border-radius: 14px; background: var(--surface); text-align: left; cursor: pointer; color: var(--ink); font-size: var(--t-xs);
+}
+.style:hover { background: var(--surface-2); }
+.style[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.style .thumb { grid-column: 1 / -1; width: 100%; height: auto; border-radius: 8px; }
+.style b { font-weight: 600; font-size: var(--t-s); }
+.style span { font-variant-numeric: tabular-nums; }
+.try-go { grid-column: 1 / -1; margin-top: 14px; }
+.try-go .hint { max-width: 48ch; }
+.try-go .hint a { font-weight: 600; text-underline-offset: 4px; }
+.shop-notes { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 56px; }
+.note { padding: 24px; border-radius: var(--radius); background: var(--surface); }
+.note h2 { font-size: var(--t-s); font-weight: 600; margin-bottom: 10px; }
+.note .cmd { color: var(--accent-text-deep); }
+.note a { font-weight: 600; text-underline-offset: 4px; }
+
 /* legal documents: contents on the left, the text on the right */
 .toc { display: grid; gap: 2px; }
 .toc p { font-weight: 600; margin-bottom: 8px; }
@@ -473,7 +498,8 @@ main:focus { outline: none; }
   .motion .hero .lede, .motion .hero .actions { animation: fadeup 700ms var(--ease-out) 520ms both; }
   .btn, .chip, .theme-toggle, .segmented button, .showcase-nav button, .switch .track { transition: background .2s, scale .15s, color .2s; }
   .btn:active, .chip:active, .theme-toggle:active, .segmented button:active, .showcase-nav button:active { scale: .96; }
-  .orb { transition: scale .35s var(--ease-out); }
+  /* the hover grows the picture inside the orb, so the orb's own entrance transition never interferes */
+  .orb img { transition: scale .35s var(--ease-out); will-change: transform; }
   .orb-hint { transition: opacity .3s var(--ease-out), transform .35s var(--ease-out); }
   .tile .pic img { transition: scale 1.6s var(--ease-out); }
   .motion .tile:not(.is-visible) .pic img { scale: 1.08; }
@@ -510,8 +536,8 @@ main:focus { outline: none; }
   .motion .step.is-on .lb { animation: fadeup .5s var(--ease-out) calc(var(--i) * 120ms + 1.5s + var(--n) * 160ms) both; }
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .orb:hover { scale: 1.035; }
-  .orb:active { scale: .97; }
+  .orb:hover img { scale: 1.035; }
+  .orb:active img { scale: .97; }
 }
 @keyframes rise { from { transform: translateY(105%); } to { transform: none; } }
 @keyframes fadeup { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
@@ -599,6 +625,9 @@ main:focus { outline: none; }
   .cta .dialog { align-self: stretch; }
   .dialog .dc { --w: 100%; }
   .page { display: block; padding: 32px 20px 96px; }
+  .try { display: block; }
+  .try-list { margin-top: 20px; }
+  .shop-notes { grid-template-columns: 1fr; margin-top: 40px; }
   .side { position: static; margin-bottom: 32px; }
   .filters { display: flex; flex-wrap: wrap; gap: 4px 16px; }
   .tab { width: auto; }

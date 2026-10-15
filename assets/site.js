@@ -20,9 +20,10 @@ document.querySelectorAll("[data-invite]").forEach((a) => (a.href = inviteUrl));
 document.querySelectorAll("[data-support]").forEach((a) => (a.href = VELLIX.support));
 // Dashboard links carry the current light/dark choice over (the dashboard is a different address)
 document.querySelectorAll("[data-dashboard]").forEach((a) => {
-  a.href = VELLIX.dashboard;
+  const base = VELLIX.dashboard.replace(/\/$/, "") + (a.dataset.dashboard === "shop" ? "/shop" : "");
+  a.href = base;
   a.addEventListener("click", () => {
-    const url = new URL(VELLIX.dashboard);
+    const url = new URL(base);
     url.searchParams.set("theme", document.documentElement.dataset.theme || "light");
     a.href = url.toString();
   });
@@ -350,6 +351,26 @@ function discordText(raw, values) {
   });
 })();
 
+/* ---------- Card shop: try a style on the example card ---------- */
+(() => {
+  const stage = document.querySelector("[data-try]");
+  if (!stage) return;
+  const img = stage.querySelector("[data-try-img]");
+  const cap = stage.querySelector("[data-try-caption]");
+  const buttons = [...stage.querySelectorAll(".style")];
+  buttons.forEach((b) => b.addEventListener("click", () => {
+    if (b.getAttribute("aria-pressed") === "true") return;
+    buttons.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    const swap = () => { img.src = `/assets/cards/${b.dataset.style}.webp`; img.alt = b.dataset.alt; cap.textContent = b.dataset.caption; };
+    if (calm) return swap();
+    const out = img.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "scale(.985)" }], { duration: 140, easing: "ease-in", fill: "forwards" });
+    out.finished.then(() => {
+      swap(); out.cancel();
+      img.animate([{ opacity: 0, transform: "scale(.985)" }, { opacity: 1, transform: "none" }], { duration: 420, easing: "cubic-bezier(.16, 1, .3, 1)" });
+    }, () => {});
+  }));
+})();
+
 /* ---------- Questions: one open at a time (hover, click or keyboard focus selects on wide screens) ---------- */
 (() => {
   const faq = document.querySelector("[data-faq]");
@@ -464,7 +485,13 @@ if (search) {
   const reveal = (el, delay) => {
     el.style.setProperty("--d", delay + "ms");
     el.classList.add("is-visible");
-    el.addEventListener("transitionend", () => { el.style.removeProperty("--d"); el.classList.add("revealed"); }, { once: true });
+    // the entrance runs opacity and transform at different speeds: switch to snappy timing only once both are done
+    const done = (e) => {
+      if (e.target !== el || el.getAnimations().some((a) => a.playState === "running")) return;
+      el.removeEventListener("transitionend", done);
+      el.style.removeProperty("--d"); el.classList.add("revealed");
+    };
+    el.addEventListener("transitionend", done);
   };
   items.forEach((el) => {
     if (el.dataset.revealDelay !== undefined) requestAnimationFrame(() => requestAnimationFrame(() => reveal(el, Number(el.dataset.revealDelay))));
